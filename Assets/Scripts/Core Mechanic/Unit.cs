@@ -59,6 +59,7 @@ public class Unit : MonoBehaviour
 
 
                 _isMoving = true;
+
                 foreach (var pos in path)
                 {
                     Vector2 difference = pos - (Vector2)_spriteObject.position;
@@ -68,6 +69,57 @@ public class Unit : MonoBehaviour
                         _spriteObject.position = Vector3.MoveTowards(_spriteObject.position, (Vector2)pos, Time.deltaTime * GameManager.Inst.MovementSpeed);
                         yield return null;
                         difference = pos - (Vector2)_spriteObject.position;
+
+                        if (gameObject.transform.GetChild(0).GetComponent<Animator>())
+                        {
+                            Animator animator = gameObject.transform.GetChild(0).GetComponent<Animator>();
+
+                            if (difference.x < 0 && difference.y == 0)
+                            {
+
+                                animator.SetBool("Right", false);
+                                animator.SetBool("Back", false);
+                                animator.SetBool("Front", false);
+                                animator.SetBool("Left", true);
+                                Debug.Log("TODO left animation");
+                          
+                            }
+                            else
+                            if (difference.x > 0 && difference.y == 0)
+                            {
+                                animator.SetBool("Right", true);
+                                animator.SetBool("Back", false);
+                                animator.SetBool("Front", false);
+                                animator.SetBool("Left", false);
+                                Debug.Log("TODO right animation");
+                       
+                            }
+                            else
+                            if (difference.x == 0 && difference.y > 0)
+                            {
+                                animator.SetBool("Right", false);
+                                animator.SetBool("Back", true);
+                                animator.SetBool("Front", false);
+                                animator.SetBool("Left", false);
+                                Debug.Log("TODO back animation");
+                        
+                            }
+                            else
+                            if (difference.x == 0 && difference.y < 0)
+                            {
+                                animator.SetBool("Right", false);
+                                animator.SetBool("Back", false);
+                                animator.SetBool("Front", true);
+                                animator.SetBool("Left", false);
+                                Debug.Log("TODO front animation");
+                                //we are going left
+                            }
+
+
+
+                        }
+
+
                     }
 
                     _spriteObject.position = (Vector2)pos;

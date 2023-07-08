@@ -570,7 +570,7 @@ GameObject:
   - component: {fileID: 579212219}
   - component: {fileID: 579212221}
   m_Layer: 0
-  m_Name: Sprite
+  m_Name: Sprites
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -653,7 +653,7 @@ Animator:
   m_GameObject: {fileID: 579212218}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b408d31b97375214db22d9b97ef79224, type: 2}
+  m_Controller: {fileID: 9100000, guid: b5efc25ee0b46444a9690cc12f7697f5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1153,6 +1153,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c4e7e5c5fa28a24caa0fae79dc41b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerUnit: {fileID: 166830270}
+  Heroes: []
+  Enemies: []
+  MovementSpeed: 10
+  CurrentTurn: 0
 --- !u!1 &2073419194
 GameObject:
   m_ObjectHideFlags: 0
