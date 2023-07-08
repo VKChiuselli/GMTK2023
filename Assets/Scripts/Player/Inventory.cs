@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,9 +26,6 @@ public class Inventory : MonoBehaviour
     #endregion
     
 
-    public bool crossbowEquipped = false;
-    public bool swordEquipped = false;
-    public bool shieldEquipped = false;
 
     [SerializeField]
     private int _keyCount = 0;
@@ -45,16 +43,28 @@ public class Inventory : MonoBehaviour
         _items.Remove(item);
     }
 
-    public T CheckForItem<T>() where T : InventoryItem
+    public bool CheckForItem(InventoryItem item)
     {
-        foreach (InventoryItem item in _items)
+        if (_items.Contains(item))
         {
-            if (item is T)
-            {
-                return (T)item;
-            }
+            return true;
         }
-        return null;
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool CheckForItem(string itemName)
+    {
+        if (_items.Any(item => item.name == itemName))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 
