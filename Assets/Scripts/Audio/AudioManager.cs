@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+
+
     private void Awake()
     {
+
+        DontDestroyOnLoad(gameObject);
+
+
         if (PlayerPrefs.HasKey("GameVolume"))
         {
             float volumeSaved = PlayerPrefs.GetFloat("GameVolume");
