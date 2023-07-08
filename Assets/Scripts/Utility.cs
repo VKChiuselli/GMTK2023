@@ -13,5 +13,14 @@ namespace Assets.Scripts
         {
             return new Vector2Int(Mathf.RoundToInt(vector.x), Mathf.RoundToInt(vector.y));
         }
+        public static int Distance(Vector2 a, Vector2 b)
+        {
+            return Distance(Round(a), Round(b));
+        }
+
+        public static int Distance(Vector2Int a, Vector2Int b)
+        {
+            return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+        }
     }
 }

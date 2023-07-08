@@ -24,7 +24,7 @@ public class ShadowGridController : MonoBehaviour
 
         foreach(var key in GameManager.Inst.Grid.Keys)
         {
-            GameManager.Inst.Grid[key].IsVisible = false;
+            GameManager.Inst.Grid[key].IsVisible = GameManager.Tile.Visibility.Invisible;
         }
     }
 
@@ -47,68 +47,34 @@ public class ShadowGridController : MonoBehaviour
             queue.Add(start);
 
             // Fail safe for the loop at the end
-            while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4)
+            while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4 + 6)
             {
                 GameManager.Tile cur = queue[0];
                 queue.RemoveAt(0);
                 visited.Add(cur);
                 ShadowMap.SetTile((Vector3Int)cur.Position, null);
-                cur.IsVisible = true;
+                cur.IsVisible = GameManager.Tile.Visibility.Visible;
+
+                if (cur.Walkable == GameManager.Tile.TileStatus.Blocked) continue;
 
                 List<GameManager.Tile> neighbours = GameManager.Inst.GetNeighbours(cur);
                 foreach (GameManager.Tile neighbour in neighbours)
-                {
-                    // You can see the walls at least
-                    if (cur.Walkable == GameManager.Tile.TileStatus.Blocked) continue;
-                    //if (neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.Blocked) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit)) continue;
+                {  
                     if (visited.Contains(neighbour)) continue;
-                    if (GameManager.Inst.GetDistance(start, cur) >= maxDist) continue;
                     if (queue.Contains(neighbour)) continue;
+                    if (GameManager.Inst.GetDistance(start, cur) >= maxDist) continue;
 
                     // Show ranges that you can walk on but contains a unit on it
                     if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit)) continue;
 
                     // Check line of sight
-                    if (LineOfSightBlocked(startPos, neighbour.Position)) continue;
-
-                    neighbour.Parent = cur;
+                    if (GameManager.Inst.LineOfSightBlocked(startPos, neighbour.Position)) continue;
                     queue.Add(neighbour);
                 }
             }
-            if (queue.Count > maxDist * maxDist)
+            if (queue.Count > maxDist * maxDist && maxDist > 1)
                 Debug.LogError("BFS Search reached maxed. Max dist is " + maxDist.ToString());
         }
         
-    }
-
-    bool LineOfSightBlocked(Vector2Int start, Vector2Int end)
-    {
-        bool isBlocked = false;
-        // Disable start and end
-        var obj1 = DisableObjectsAtPos(start);
-        var obj2 = DisableObjectsAtPos(end);
-
-        var collision = Physics2D.Linecast(start, end);
-        if (collision.collider != null)
-            isBlocked = collision.collider.CompareTag("Wall");
-
-        if (obj1 != null)
-            obj1.enabled = true;
-        if (obj2 != null)
-            obj2.enabled = true;
-
-        return isBlocked;
-    }
-
-    Collider2D DisableObjectsAtPos(Vector2Int pos)
-    {
-        Collider2D obj = null;
-        var collision = Physics2D.OverlapPoint(pos);
-        if (collision != null)
-        {
-            obj = collision;
-            obj.enabled = true;
-        }
-        return obj;
     }
 }
