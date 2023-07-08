@@ -53,6 +53,9 @@ public class GameManager : MonoBehaviour
         SetUpGrid(TopLeftBounds, BottomRightBounds);
         _gridController = GetComponent<GridMovementController>();
         _shadowController = GetComponent<ShadowGridController>();
+
+        if (PlayerUnit == null)
+            PlayerUnit = FindObjectOfType<Player>();
     }
 
     private void OnEnable()
@@ -152,8 +155,10 @@ public class GameManager : MonoBehaviour
             if (click)
             {
                 _isMovingUnits = true;
-                PlayerUnit.Move(mousePosition);
-                _isNextTurn = true;
+                if (PlayerUnit.Move(mousePosition))
+                {
+                    _isNextTurn = true;
+                }
             }
         }
         else if (!PlayerUnit._isMoving)

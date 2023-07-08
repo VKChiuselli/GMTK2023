@@ -56,9 +56,11 @@ public class Chest : InteractItem
             {
                 OpenChest();
                 Debug.Log("Chest was opened");
+                Destroy(gameObject, 1);
             }
         }
     }
+
 
     public void InsertItem(GameObject insertItem)
     {

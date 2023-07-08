@@ -30,7 +30,7 @@ public class Unit : MonoBehaviour
         
     }
 
-    public virtual void Move(Vector2 target)
+    public virtual bool Move(Vector2 target)
     {
         if (!_isMoving)
         {
@@ -47,6 +47,8 @@ public class Unit : MonoBehaviour
                 _isMoving = true;
             }
         }
+
+        return _isMoving;
     }
 
     // Similar to move, but will try to move if there is a path regardless of distance
