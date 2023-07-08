@@ -77,41 +77,29 @@ public class Unit : MonoBehaviour
                             if (difference.x < 0 && difference.y == 0)
                             {
 
-                                animator.SetBool("Right", false);
-                                animator.SetBool("Back", false);
-                                animator.SetBool("Front", false);
-                                animator.SetBool("Left", true);
+                                animator.SetTrigger("Left"); 
                                 Debug.Log("TODO left animation");
                           
                             }
                             else
                             if (difference.x > 0 && difference.y == 0)
                             {
-                                animator.SetBool("Right", true);
-                                animator.SetBool("Back", false);
-                                animator.SetBool("Front", false);
-                                animator.SetBool("Left", false);
+                                animator.SetTrigger("Right"); 
                                 Debug.Log("TODO right animation");
                        
                             }
                             else
                             if (difference.x == 0 && difference.y > 0)
                             {
-                                animator.SetBool("Right", false);
-                                animator.SetBool("Back", true);
-                                animator.SetBool("Front", false);
-                                animator.SetBool("Left", false);
+                                animator.SetTrigger("Back"); 
                                 Debug.Log("TODO back animation");
                         
                             }
                             else
                             if (difference.x == 0 && difference.y < 0)
                             {
-                                animator.SetBool("Right", false);
-                                animator.SetBool("Back", false);
-                                animator.SetBool("Front", true);
-                                animator.SetBool("Left", false);
-                                Debug.Log("TODO front animation");
+                                animator.SetTrigger("Front");
+                                 
                                 //we are going left
                             }
 
@@ -124,7 +112,7 @@ public class Unit : MonoBehaviour
 
                     _spriteObject.position = (Vector2)pos;
                 }
-                _isMoving = false;
+                _isMoving = false; 
             }
         }
     }
