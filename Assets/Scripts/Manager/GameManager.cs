@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     private GridMovementController _gridController;
     private ShadowGridController _shadowController;
 
+    private bool _isMovingUnits = false;
+    private bool _isNextTurn = false;
+
     public enum TurnId
     {
         Player = 0,
@@ -68,10 +71,26 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        UnitController();
-        CursorController();
         MovementGridUpdate();
         ShadowGridUpdate();
+        HoverInfo();
+
+        UnitController();
+        CursorController();
+    }
+
+    void HoverInfo()
+    {
+        Vector2 mousePosition = inputActions.Player.MouseLocation.ReadValue<Vector2>();
+        Vector2Int position = Utility.Round(Camera.main.ScreenToWorldPoint(mousePosition));
+
+        var collision = Physics2D.OverlapPoint(position);
+        if (collision != null)
+        {
+            var unit = collision.GetComponent<Unit>();
+            if (unit != null)
+                unit.HoverInfo();
+        }
     }
 
     void ShadowGridUpdate()
@@ -124,47 +143,79 @@ public class GameManager : MonoBehaviour
 
     void PlayerControls()
     {
-        bool click = inputActions.Player.Click.ReadValue<float>() > 0;
-        Vector2 position = inputActions.Player.MouseLocation.ReadValue<Vector2>();
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(position);
-
-        if (click)
+        if (!_isMovingUnits)
         {
-            PlayerUnit.Move(mousePosition);
+            bool click = inputActions.Player.Click.ReadValue<float>() > 0;
+            Vector2 position = inputActions.Player.MouseLocation.ReadValue<Vector2>();
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(position);
+
+            if (click)
+            {
+                _isMovingUnits = true;
+                PlayerUnit.Move(mousePosition);
+                _isNextTurn = true;
+            }
+        }
+        else if (!PlayerUnit._isMoving)
+        {
+            _isMovingUnits = false;
+            NextTurn();
         }
     }
 
     void AIControls(List<Unit> units)
     {
-        // Get the properties that each AI unit has
-
-
-        // Temp movement
-        bool click = inputActions.Player.Click.ReadValue<float>() > 0;
-        Vector2 position = inputActions.Player.MouseLocation.ReadValue<Vector2>();
-
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(position);
-
-        if (click)
+        if (units != null)
         {
-            StartCoroutine(MoveUnits(units, mousePosition));
+            if (!_isMovingUnits)
+            {
+                StartCoroutine(MoveUnits(units));
+            }
         }
+        else
+            Debug.LogError("Units are null");
     }
 
-    IEnumerator MoveUnits(List<Unit> units, Vector2 position)
+    IEnumerator MoveUnits(List<Unit> units)
     {
-        foreach (var unit in units)
+        if (!_isMovingUnits)
         {
-            unit.Move(position);
-            yield return new WaitForSeconds(0.05f);
+            _isMovingUnits = true;
+            foreach (var unit in units)
+            {
+                unit.AILogic();
+                yield return new WaitForSeconds(0.05f);
+            }
+
+            while (_isMovingUnits)
+            {
+                _isMovingUnits = false;
+                foreach (var unit in units)
+                {
+                    if (unit._isMoving)
+                    {
+                        _isMovingUnits = true;
+                        yield return null;
+                    }
+                }
+            }
+            _isMovingUnits = true;
+            //yield return new WaitForSeconds(1f);
+            _isMovingUnits = false;
+            _isNextTurn = true;
+            NextTurn();
         }
     }
 
     void NextTurn()
     {
-        CurrentTurn++;
-        if (CurrentTurn > TurnId.Traps)
-            CurrentTurn = TurnId.Player;
+        if (_isNextTurn)
+        {
+            CurrentTurn++;
+            if (CurrentTurn > TurnId.Traps)
+                CurrentTurn = TurnId.Player;
+            _isNextTurn = false;
+        }
     }
 
     public class Tile
@@ -172,13 +223,20 @@ public class GameManager : MonoBehaviour
         public Vector2Int Position;
         public TileStatus Walkable;
         public Tile Parent;
-        public bool IsVisible = true;
+        public Visibility IsVisible = Visibility.Visible;
 
         public enum TileStatus
         {
             Walkable = 00,
             HasUnit  = 10,
             Blocked  = 01
+        }
+
+        public enum Visibility
+        {
+            Invisible,
+            Visible,
+            HeroVisible
         }
     }
 
@@ -217,10 +275,30 @@ public class GameManager : MonoBehaviour
         return status;
     }
 
+    public void UpdateHeroSight(Vector2Int pos)
+    {
+        _gridController.DrawHeroVisibility(pos);
+    }
+
+    public bool LineOfSightBlocked(Vector2Int start, Vector2Int end)
+    {
+        bool isBlocked = false;
+        // Disable start and end
+
+        var collision = Physics2D.LinecastAll(start, end);
+        foreach (var c in collision)
+        {
+            if (c.collider != null && (Vector2)c.transform.position != end && (Vector2)c.transform.position != start)
+                isBlocked = c.collider.CompareTag("Wall");
+        }
+
+        return isBlocked;
+    }
+
     public int GetDistance(Tile a, Tile b)
     {
         // Returns Manhattan Distance
-        return Mathf.Abs(a.Position.x - b.Position.x) + Mathf.Abs(a.Position.y - b.Position.y);
+        return Utility.Distance(a.Position, b.Position);
     }
 
     List<Vector2Int> RetracePath(Tile start, Tile end)
@@ -284,7 +362,7 @@ public class GameManager : MonoBehaviour
         queue.Add(start);
 
         // Fail safe for the loop at the end
-        while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4)
+        while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4 + 6)
         {
             Tile cur = queue[0];
             queue.RemoveAt(0);
@@ -305,14 +383,14 @@ public class GameManager : MonoBehaviour
             {
                 if (neighbour.Walkable.HasFlag(Tile.TileStatus.Blocked)) continue;
                 if (visited.Contains(neighbour)) continue;
-                if (GetDistance(start, cur) > maxDist) continue;
+                if (GetDistance(start, cur) >= maxDist) continue;
                 if (queue.Contains(neighbour)) continue;
 
                 neighbour.Parent = cur;
                 queue.Add(neighbour);
             }
         }
-        if (queue.Count > maxDist * maxDist)
+        if (queue.Count > maxDist * maxDist && maxDist != 1)
             Debug.LogError("BFS Search reached maxed. Max dist is " + maxDist.ToString());
         Debug.Log("No Path found with move dist of " + maxDist.ToString());
         return null;

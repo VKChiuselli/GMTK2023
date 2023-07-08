@@ -11,6 +11,7 @@ public class GridMovementController : MonoBehaviour
     public Tile PathTile;
     public Tile PathTileCorner;
     public Tile EndTile;
+    public Tile Visibility;
 
     public void ClearGrid()
     {
@@ -31,7 +32,7 @@ public class GridMovementController : MonoBehaviour
         queue.Add(start);
 
         // Fail safe for the loop at the end
-        while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4)
+        while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4 + 6)
         {
             GameManager.Tile cur = queue[0];
             queue.RemoveAt(0);
@@ -48,7 +49,7 @@ public class GridMovementController : MonoBehaviour
             {
                 if (neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.Blocked) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit)) continue;
                 if (visited.Contains(neighbour)) continue;
-                if (GameManager.Inst.GetDistance(start, cur) > maxDist) continue;
+                if (GameManager.Inst.GetDistance(start, cur) >= maxDist) continue;
                 if (queue.Contains(neighbour)) continue;
 
                 // Show ranges that you can walk on but contains a unit on it
@@ -58,7 +59,7 @@ public class GridMovementController : MonoBehaviour
                 queue.Add(neighbour);
             }
         }
-        if (queue.Count > maxDist * maxDist)
+        if (queue.Count > maxDist * maxDist && maxDist != 1)
             Debug.LogError("BFS Search reached maxed. Max dist is " + maxDist.ToString());
     }
 
@@ -160,5 +161,11 @@ public class GridMovementController : MonoBehaviour
 
             MovementMap.SetTransformMatrix((Vector3Int)cur_pos, Matrix4x4.Rotate(Quaternion.Euler(0, 0, rotation)));
         }
+    }
+
+    public void DrawHeroVisibility(Vector2Int pos)
+    {
+        GameManager.Inst.Grid[pos].IsVisible = GameManager.Tile.Visibility.HeroVisible;
+        MovementMap.SetTile((Vector3Int)pos, Visibility);
     }
 }
