@@ -8,7 +8,8 @@ public class SFX : MonoBehaviour
     public AudioClip firstEffect; // Sound effect to play
     public AudioClip secondEffect; // Sound effect to play
     public AudioClip thirdEffect; // Sound effect to play
-    private  AudioSource audioSource;
+    public List<AudioClip> severalEffects; // for the hero and player, there are too much SFX so put them here
+    private AudioSource audioSource;
 
     private void Start()
     {
@@ -24,7 +25,7 @@ public class SFX : MonoBehaviour
                 audioSource.PlayOneShot(firstEffect);
             }
         }
-          
+
     }
     public void PlaySecondEffect()
     {
@@ -47,6 +48,18 @@ public class SFX : MonoBehaviour
         }
 
     }
- 
+
+    public void PlayOneSpecific(int trackIndex)
+    {
+        if (audioSource != null)
+        {
+            if (severalEffects != null)
+            {
+                audioSource.PlayOneShot(severalEffects[trackIndex]);
+            }
+        }
+
+    }
 }
+
 

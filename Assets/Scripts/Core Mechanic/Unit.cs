@@ -7,7 +7,11 @@ public class Unit : MonoBehaviour
 {
     public int MaxMovement = 3;
     public bool _isMoving = false;
+
+    [SerializeField]
+    private Vector2Int _currentLookDirection = Vector2Int.down;
     private Transform _spriteObject;
+
 
     // Start is called before the first frame update
     protected virtual void Awake()
@@ -70,6 +74,31 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public virtual void Interact(Vector2 target)
+    {
+        if (!_isMoving)
+        {
+            Utility.Round(target);
+            // todo limit with layers
+            List<Collider2D> potentials = new List<Collider2D>(Physics2D.OverlapBoxAll(target, Vector2.one * 0.8f, 0f)); // the *0.8f is to avoid catching nearby objects
+            if (potentials.Count > 0)
+            {
+                foreach (var potentialInteractible in potentials)
+                {
+                    if (potentialInteractible.TryGetComponent(out InteractItem interactible))
+                    {
+                        if (interactible)
+                        {
+                            interactible.InteractWith(this);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
     // Moves the sprite child instead
     public IEnumerator MoveCoroutine(List<Vector2Int> path)
     {
@@ -80,7 +109,7 @@ public class Unit : MonoBehaviour
             _isMoving = true;
 
            
-
+            Animator animator = transform.GetChild(0).GetComponent<Animator>();
             foreach (var pos in path)
             {
                 Vector2 difference = pos - (Vector2)_spriteObject.position;
@@ -95,37 +124,45 @@ public class Unit : MonoBehaviour
                     {
                         Animator animator = gameObject.transform.GetChild(0).GetComponent<Animator>();
 
-                        if (difference.x < 0 && difference.y == 0)
-                        {
+                        _spriteObject.position = Vector3.MoveTowards(_spriteObject.position, (Vector2)pos, Time.deltaTime * GameManager.Inst.MovementSpeed);
+                        yield return null;
+                        difference = pos - (Vector2)_spriteObject.position;
+                        _currentLookDirection = Utility.Round(difference);
 
-                            animator.SetTrigger("Left"); 
-                            Debug.Log("TODO left animation");
+                        if (animator)
+                        {
+                            
+                            if (difference.x < 0 && difference.y == 0)
+                            {
+
+                                animator.SetTrigger("Left"); 
+                                Debug.Log("TODO left animation");
                           
-                        }
-                        else
-                        if (difference.x > 0 && difference.y == 0)
-                        {
-                            animator.SetTrigger("Right"); 
-                            Debug.Log("TODO right animation");
-                       
-                        }
-                        else
-                        if (difference.x == 0 && difference.y > 0)
-                        {
-                            animator.SetTrigger("Back"); 
-                            Debug.Log("TODO back animation");
+                            }
+                            else
+                            if (difference.x > 0 && difference.y == 0)
+                            {
+                                animator.SetTrigger("Right"); 
+                                Debug.Log("TODO right animation");
                         
-                        }
-                        else
-                        if (difference.x == 0 && difference.y < 0)
-                        {
-                            animator.SetTrigger("Front");
-                                 
-                            //we are going left
-                        }
+                            }
+                            else
+                            if (difference.x == 0 && difference.y > 0)
+                            {
+                                animator.SetTrigger("Back"); 
+                                Debug.Log("TODO back animation");
+                            
+                            }
+                            else
+                            if (difference.x == 0 && difference.y < 0)
+                            {
+                                animator.SetTrigger("Front");
+                                    
+                                //we are going left
+                            }
 
-                    }
-                    
+                        }
+                    }  
                 }
 
                 _spriteObject.position = (Vector2)pos;
