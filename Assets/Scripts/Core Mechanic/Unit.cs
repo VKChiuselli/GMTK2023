@@ -122,7 +122,6 @@ public class Unit : MonoBehaviour
 
                     if (gameObject.transform.GetChild(0).GetComponent<Animator>())
                     {
-                        Animator animator = gameObject.transform.GetChild(0).GetComponent<Animator>();
 
                         _spriteObject.position = Vector3.MoveTowards(_spriteObject.position, (Vector2)pos, Time.deltaTime * GameManager.Inst.MovementSpeed);
                         yield return null;
