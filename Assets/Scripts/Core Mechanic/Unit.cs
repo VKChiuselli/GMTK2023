@@ -51,6 +51,8 @@ public class Unit : MonoBehaviour
             {
                 _isMoving = true;
 
+           
+
                 foreach (var pos in path)
                 {
                     Vector2 difference = pos - (Vector2)_spriteObject.position;
@@ -94,14 +96,15 @@ public class Unit : MonoBehaviour
                                 //we are going left
                             }
 
-
-
                         }
-
-
+                    
                     }
 
                     _spriteObject.position = (Vector2)pos;
+                }
+                if (GetComponent<SFX>() != null)
+                {
+                    GetComponent<SFX>().PlayThirdEffect();//the third effect is always a movevement sound
                 }
                 _isMoving = false; 
             }

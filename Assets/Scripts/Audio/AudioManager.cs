@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-
+    public AudioClip startTheme; // Sound effect to play
+    public AudioClip startGameEffect; // Sound effect to play
+    public AudioClip gameLoopBackground; // Sound effect to play
 
     private void Awake()
     {
@@ -30,4 +32,25 @@ public class AudioManager : MonoBehaviour
         }
         // Set initial slider value to match audio source volume
     }
+
+    public void PlayGameLoopBackground()
+    {
+        // Play the sound effect
+       gameObject.GetComponent<AudioSource>().PlayOneShot(gameLoopBackground);
+    }
+    
+    public void PlayStartGameEffect()
+    {
+        // Play the sound effect
+       gameObject.GetComponent<AudioSource>().PlayOneShot(startGameEffect);
+    }
+    
+    public void StopMusic()
+    {
+        // Play the sound effect
+       gameObject.GetComponent<AudioSource>().Stop();
+    }
+
+
+
 }

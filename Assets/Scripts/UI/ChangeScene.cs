@@ -5,9 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
+    AudioManager audioManager;
+    private void Start()
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+    }
+
 
     public void GoToScene(string sceneName)
     {
+        audioManager.StopMusic();
+        audioManager.PlayGameLoopBackground();
+        audioManager.PlayStartGameEffect();
         SceneManager.LoadScene(sceneName);
     }
 
