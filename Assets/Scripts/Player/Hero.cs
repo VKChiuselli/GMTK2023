@@ -4,7 +4,7 @@ using UnityEngine;
 using NaughtyAttributes;
 public class Hero : Unit
 {
-
+    
     public void PlayArrowSFX()
     {
         GetComponent<SFX>().PlayOneSpecific(0);

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SFX : MonoBehaviour
 {
-
     public AudioClip firstEffect; // Sound effect to play
     public AudioClip secondEffect; // Sound effect to play
     public AudioClip thirdEffect; // Sound effect to play
@@ -58,7 +57,6 @@ public class SFX : MonoBehaviour
                 audioSource.PlayOneShot(severalEffects[trackIndex]);
             }
         }
-
     }
 }
 

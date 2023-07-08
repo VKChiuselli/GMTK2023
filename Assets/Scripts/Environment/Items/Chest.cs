@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chest : InteractItem
+public class Chest : InteractableEntity
 {
     bool isOpen;
     bool isEmpty;
@@ -41,21 +41,16 @@ public class Chest : InteractItem
     {
         if (unit.GetType() == typeof(Hero))
         {
-            if (isOpen)
+            OpenChest();
+            
+            if (!isEmpty)
             {
-                if (!isEmpty)
-                {
-                    Debug.Log("Adding item from chest to inventory");
-                }
-                else
-                {
-                    Debug.Log("Chest is empty");
-                }
+                Inventory.Instance.AddItem(LootItem());
+                Debug.Log("Looted the chest");
             }
             else
             {
-                OpenChest();
-                Debug.Log("Chest was opened");
+                Debug.Log("Chest is empty");
             }
         }
     }

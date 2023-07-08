@@ -55,7 +55,7 @@ public class Unit : MonoBehaviour
             {
                 foreach (var potentialInteractible in potentials)
                 {
-                    if (potentialInteractible.TryGetComponent(out InteractItem interactible))
+                    if (potentialInteractible.TryGetComponent(out InteractableEntity interactible))
                     {
                         if (interactible)
                         {
