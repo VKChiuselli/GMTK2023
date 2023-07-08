@@ -44,16 +44,17 @@ public class Unit : MonoBehaviour
                 _spriteObject.position = pos;
 
                 StartCoroutine(MoveCoroutine(path));
-                _isMoving = true;
             }
         }
     }
 
     // Similar to move, but will try to move if there is a path regardless of distance
-    public virtual void MoveTowards(Vector2 target)
+    public virtual bool MoveTowards(Vector2 target)
     {
+        bool canMoveToTarget = false;
         if (!_isMoving)
         {
+            
             List<Vector2Int> path = GameManager.Inst.FindPath(_spriteObject.position, target, 1000);
 
             if (path != null)
@@ -63,6 +64,11 @@ public class Unit : MonoBehaviour
                 if (path.Count > MaxMovement)
                 {
                     path.RemoveRange(MaxMovement, path.Count - MaxMovement);
+                    canMoveToTarget = false;
+                }
+                else
+                {
+                    canMoveToTarget = true;
                 }
 
                 // Get the last node in the path as the last node may not be the target pos
@@ -71,6 +77,7 @@ public class Unit : MonoBehaviour
                 StartCoroutine(MoveCoroutine(path));
             }
         }
+        return canMoveToTarget;
     }
 
     public virtual void Interact(Vector2 target)
@@ -134,21 +141,21 @@ public class Unit : MonoBehaviour
                             {
 
                                 animator.SetTrigger("Left"); 
-                                Debug.Log("TODO left animation");
+                                //Debug.Log("TODO left animation");
                           
                             }
                             else
                             if (difference.x > 0 && difference.y == 0)
                             {
                                 animator.SetTrigger("Right"); 
-                                Debug.Log("TODO right animation");
+                                //Debug.Log("TODO right animation");
                         
                             }
                             else
                             if (difference.x == 0 && difference.y > 0)
                             {
                                 animator.SetTrigger("Back"); 
-                                Debug.Log("TODO back animation");
+                                //Debug.Log("TODO back animation");
                             
                             }
                             else

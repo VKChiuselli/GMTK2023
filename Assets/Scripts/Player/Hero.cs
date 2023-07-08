@@ -32,19 +32,22 @@ public class Hero : Unit
 
     public override void AILogic()
     {
-        List<GameObject> objsTest = GetObjectsInRange(false);
-        objsTest.OrderBy(x => Utility.Distance(transform.position, x.transform.position));
-        // print names of all objsTest gameobjects
-        
-
-
         List<PointOfInterest> objs = GetObjectsInRange(false, true);
-        Debug.Log(objs.Count);
-        Debug.Log(objsTest.Count);
 
-        if (objsTest.Count > 0)
-            MoveTowards(Utility.Round(objsTest[0].transform.position));
-
+        if (objs.Count > 0)
+        {
+            PointOfInterest closest = objs[0];
+            if (objs[0])
+            {
+                bool finishedMovement = MoveTowards(Utility.Round(objs[0].transform.position));
+                if (finishedMovement)
+                {
+                    // Interact with the closest object
+                    ((InteractableEntity)closest).InteractWith(this);
+                    closest.wasVisited = true;
+                }
+            }
+        }
         /*// Find closeset chest
         GameObject closest = GetClosestObject(objs.FindAll(x => x.GetComponent<Chest>() != null));
         if (closest != null)
@@ -81,7 +84,8 @@ public class Hero : Unit
         visibleObjects = Physics2D.OverlapCircleAll(transform.position, 999).ToList()
             .FindAll(x => !GameManager.Inst.LineOfSightBlocked(startPos, Utility.Round(x.transform.position)))
             .ConvertAll(x => x.GetComponent<PointOfInterest>())
-            .FindAll(x => x != null);
+            .FindAll(x => x != null)
+            .FindAll(x => !x.wasVisited && x.IsVisibleToHero);
         visibleObjects.OrderBy(x => Utility.Distance(transform.position, x.transform.position));
         return visibleObjects;
         // visibleObjects.Add(GetObjectsLitUpBySpotlight())

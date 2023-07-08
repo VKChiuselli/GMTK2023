@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class PointOfInterest : MonoBehaviour
 {
-    protected bool _inHeroVision = false;
+    public bool wasVisited = false;
+    protected bool _inHeroVision = true;
     protected bool _inShadow = false;
     public bool IsVisibleToHero => _inHeroVision && !_inShadow;
 

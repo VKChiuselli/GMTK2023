@@ -32,6 +32,7 @@ public class Chest : InteractableEntity
         if (isOpen)
         {
             transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = openCloseSprites[0];
+
         }
         else
         {
@@ -41,13 +42,15 @@ public class Chest : InteractableEntity
 
     public override void InteractWith(Unit unit)
     {
-        if (unit.GetType() == typeof(Hero))
+        Debug.Log("Interacting with chest test");
+        if (unit.GetType().DerivesFrom(typeof(Hero)))
         {
+            Debug.Log("Interacting with chest");
             OpenChest();
+            wasVisited = true;
             
             if (!isEmpty)
             {
- 
                 Inventory.Instance.AddItem(LootItem());
                 Debug.Log("Looted the chest");
  
@@ -73,6 +76,7 @@ public class Chest : InteractableEntity
                 {
                     funBarManager.ChangeFunBarCounter(-10);
                 }
+                Destroy(gameObject);
             }
         }
     }

@@ -427,7 +427,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4589681157872802762, guid: 2ebfac48722196f47b2816fd76584e3d, type: 3}
       propertyPath: MaxMovement
-      value: 17
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4589681157872802763, guid: 2ebfac48722196f47b2816fd76584e3d, type: 3}
       propertyPath: m_RootOrder
@@ -4275,7 +4275,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2073419194}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 450cb07a5468d634fa012d10eedd88ec, type: 3}
   m_Name: 

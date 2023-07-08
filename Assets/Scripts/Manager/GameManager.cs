@@ -2,6 +2,7 @@ using Assets.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -130,7 +131,8 @@ public class GameManager : MonoBehaviour
                 AIControls(Enemies);
                 break;
             case TurnId.Traps:
-                CurrentTurn = TurnId.Player;
+                _isNextTurn = true;
+                NextTurn();
                 break;
             default:
                 break;
@@ -189,6 +191,7 @@ public class GameManager : MonoBehaviour
 
             while (_isMovingUnits)
             {
+                yield return null;
                 _isMovingUnits = false;
                 foreach (var unit in units)
                 {
@@ -197,10 +200,9 @@ public class GameManager : MonoBehaviour
                         _isMovingUnits = true;
                     }
                 }
-                yield return null;
             }
             _isMovingUnits = true;
-            //yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.2f);
             _isMovingUnits = false;
             _isNextTurn = true;
             NextTurn();
@@ -392,7 +394,6 @@ public class GameManager : MonoBehaviour
         }
         if (queue.Count > maxDist * maxDist && maxDist != 1)
             Debug.LogError("BFS Search reached maxed. Max dist is " + maxDist.ToString());
-        Debug.Log("No Path found with move dist of " + maxDist.ToString());
         return null;
     }
 }
