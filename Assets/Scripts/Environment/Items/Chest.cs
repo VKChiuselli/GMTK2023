@@ -37,6 +37,29 @@ public class Chest : InteractItem
         }
     }
 
+    public override void InteractWith(Unit unit)
+    {
+        if (unit.GetType() == typeof(Hero))
+        {
+            if (isOpen)
+            {
+                if (!isEmpty)
+                {
+                    Debug.Log("Adding item from chest to inventory");
+                }
+                else
+                {
+                    Debug.Log("Chest is empty");
+                }
+            }
+            else
+            {
+                OpenChest();
+                Debug.Log("Chest was opened");
+            }
+        }
+    }
+
     public void InsertItem(GameObject insertItem)
     {
         itemContained = insertItem;

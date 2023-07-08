@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class InteractItem : MonoBehaviour
 {
-   public void InteractWith(Unit unit)
+    public virtual void InteractWith(Unit unit) //TODO: Make this abstract
     {
         Debug.Log("TODO");
     }
+
+
 
 }
