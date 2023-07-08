@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public List<Unit> Heroes;
     public List<Unit> Enemies;
 
+    public Vector2Int TopLeftBounds;
+    public Vector2Int BottomRightBounds;
+
     public Dictionary<Vector2Int, Tile> Grid = new();
     public float MovementSpeed = 10;
     public TurnId CurrentTurn = TurnId.Player;
@@ -40,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        SetUpGrid(new Vector2Int(-5, -5) ,new Vector2Int(5, 5));
+        SetUpGrid(TopLeftBounds, BottomRightBounds);
     }
 
     private void OnEnable()
