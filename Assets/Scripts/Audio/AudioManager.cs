@@ -9,8 +9,15 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
 
-        DontDestroyOnLoad(gameObject);
-
+        int numGameSessions = FindObjectsOfType<AudioManager>().Length;
+        if (numGameSessions > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
         if (PlayerPrefs.HasKey("GameVolume"))
         {
