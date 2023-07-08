@@ -83,7 +83,6 @@ public class GridMovementController : MonoBehaviour
                     rotation = 0;
                     // Its the reverse of the end tile
                     direction = cur_pos - next_pos;
-                    Debug.Log(direction);
                     if (direction == Vector2Int.up)
                         rotation = 90;
                     else if (direction == Vector2Int.left)
@@ -152,7 +151,6 @@ public class GridMovementController : MonoBehaviour
 
             rotation = 0;
             direction = cur_pos - prev_pos;
-            Debug.Log(direction);
             if (direction == Vector2Int.up)
                 rotation = 90;
             else if (direction == Vector2Int.left)
