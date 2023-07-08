@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public PlayerInput inputActions;
 
     public Unit PlayerUnit;
+    public GameObject Cursor;
 
     //TODO an automated way to populate this
     public List<Unit> Heroes;
@@ -21,6 +22,8 @@ public class GameManager : MonoBehaviour
     public Dictionary<Vector2Int, Tile> Grid = new();
     public float MovementSpeed = 10;
     public TurnId CurrentTurn = TurnId.Player;
+
+    private GridMovementController _gridController;
 
     public enum TurnId
     {
@@ -44,6 +47,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetUpGrid(TopLeftBounds, BottomRightBounds);
+        _gridController = GetComponent<GridMovementController>();
     }
 
     private void OnEnable()
@@ -61,6 +65,26 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update()
+    {
+        Vector2 mousePosition = inputActions.Player.MouseLocation.ReadValue<Vector2>();
+        Vector2Int cursorPosition = Utility.Round(Camera.main.ScreenToWorldPoint(mousePosition));
+
+        UnitController();
+        CursorController();
+        _gridController.ClearGrid();
+        _gridController.DrawWalkablePath(Utility.Round(PlayerUnit.transform.position), PlayerUnit.MaxMovement);
+        List<Vector2Int> path = FindPath(PlayerUnit.transform.position, cursorPosition, PlayerUnit.MaxMovement);
+        _gridController.DrawMovementPath(path, Utility.Round(PlayerUnit.transform.position));
+    }
+
+    void CursorController()
+    {
+        Vector2 position = inputActions.Player.MouseLocation.ReadValue<Vector2>();
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(position);
+        Cursor.transform.position = (Vector2)Utility.Round(mousePosition);
+    }
+
+    void UnitController()
     {
         switch (CurrentTurn)
         {
@@ -89,7 +113,6 @@ public class GameManager : MonoBehaviour
     {
         bool click = inputActions.Player.Click.ReadValue<float>() > 0;
         Vector2 position = inputActions.Player.MouseLocation.ReadValue<Vector2>();
-
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(position);
 
         if (click)
@@ -151,7 +174,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void UpdateGrid()
+    public void UpdateGrid()
     {
         foreach(Vector2Int pos in Grid.Keys)
         {
@@ -168,7 +191,7 @@ public class GameManager : MonoBehaviour
         return walkable;
     }
 
-    int GetDistance(Tile a, Tile b)
+    public int GetDistance(Tile a, Tile b)
     {
         // Returns Manhattan Distance
         return Mathf.Abs(a.Position.x - b.Position.x) + Mathf.Abs(a.Position.y - b.Position.y);
@@ -189,7 +212,7 @@ public class GameManager : MonoBehaviour
         return path;
     }
 
-    List<Tile> GetNeighbours(Tile cur)
+    public List<Tile> GetNeighbours(Tile cur)
     {
         List<Tile> neighbours = new();
         List<Vector2Int> positions = new List<Vector2Int>()

@@ -49,15 +49,6 @@ public class Unit : MonoBehaviour
 
             if (path != null)
             {
-                // Debug stuff
-                Vector2Int prev_pos = Utility.Round(_spriteObject.position);
-                foreach (var pos in path)
-                {
-                    Debug.DrawLine(new Vector3(prev_pos.x, prev_pos.y, _spriteObject.position.z), new Vector3(pos.x, pos.y, _spriteObject.position.z), Color.red, 2);
-                    prev_pos = pos;
-                }
-
-
                 _isMoving = true;
 
                 foreach (var pos in path)
