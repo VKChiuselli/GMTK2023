@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: d786b869f259af848b108b25f10775d1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7c6e998068b698d4f98c24dfb7f52fb6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111,7 +111,7 @@ Animator:
   m_GameObject: {fileID: 9107689659627132125}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4a31ad7a65f6187448a32b310d006272, type: 2}
+  m_Controller: {fileID: 9100000, guid: 35f67cacd9ad54f418c50aa686e66995, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -132,9 +132,9 @@ GameObject:
   - component: {fileID: 9107689660041389246}
   - component: {fileID: 9107689660041389216}
   - component: {fileID: 1619458902226035240}
-  - component: {fileID: -5097776399914491905}
+  - component: {fileID: 3064614946934893913}
   m_Layer: 0
-  m_Name: Boar
+  m_Name: Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,10 +194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0006aff52805d84a961a2ddc73a38bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstEffect: {fileID: 8300000, guid: 281ee1f07aed4154f86a59ed25edd3a0, type: 3}
-  secondEffect: {fileID: 8300000, guid: 398ef6de6685d754ebc86ab6b6d3cfb1, type: 3}
-  thirdEffect: {fileID: 8300000, guid: 3c5af00c36e394841be73cafbcb5569a, type: 3}
---- !u!114 &-5097776399914491905
+  firstEffect: {fileID: 8300000, guid: f1600594cc294e247a99d19a36f5a68a, type: 3}
+  secondEffect: {fileID: 8300000, guid: ec6d21adaca3346458573b398e8cdb28, type: 3}
+  thirdEffect: {fileID: 8300000, guid: 67946b54d490e224ca518ce416c045ec, type: 3}
+--- !u!114 &3064614946934893913
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
