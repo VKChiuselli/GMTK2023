@@ -69,7 +69,6 @@ public class Unit : MonoBehaviour
                 transform.position = (Vector2)path[^1];
                 _spriteObject.position = pos;
                 StartCoroutine(MoveCoroutine(path));
-                _isMoving = true;
             }
         }
     }

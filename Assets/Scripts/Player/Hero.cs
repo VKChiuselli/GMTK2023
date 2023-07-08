@@ -32,11 +32,18 @@ public class Hero : Unit
 
     public override void AILogic()
     {
-        //List<GameObject> objs = GetObjectsInRange(false);
-        List<PointOfInterest> objs = GetObjectsInRange(false, true);
+        List<GameObject> objsTest = GetObjectsInRange(false);
+        objsTest.OrderBy(x => Utility.Distance(transform.position, x.transform.position));
+        // print names of all objsTest gameobjects
+        
 
-        if (objs.Count > 0)
-            MoveTowards(Utility.Round(objs[0].transform.position));
+
+        List<PointOfInterest> objs = GetObjectsInRange(false, true);
+        Debug.Log(objs.Count);
+        Debug.Log(objsTest.Count);
+
+        if (objsTest.Count > 0)
+            MoveTowards(Utility.Round(objsTest[0].transform.position));
 
         /*// Find closeset chest
         GameObject closest = GetClosestObject(objs.FindAll(x => x.GetComponent<Chest>() != null));
@@ -71,8 +78,8 @@ public class Hero : Unit
         Vector2Int startPos = Utility.Round(transform.position);
         
 
-        visibleObjects = Physics2D.OverlapCircleAll(transform.position, _light.Range).ToList()
-            .FindAll(x => GameManager.Inst.LineOfSightBlocked(startPos, Utility.Round(x.transform.position)))
+        visibleObjects = Physics2D.OverlapCircleAll(transform.position, 999).ToList()
+            .FindAll(x => !GameManager.Inst.LineOfSightBlocked(startPos, Utility.Round(x.transform.position)))
             .ConvertAll(x => x.GetComponent<PointOfInterest>())
             .FindAll(x => x != null);
         visibleObjects.OrderBy(x => Utility.Distance(transform.position, x.transform.position));
@@ -87,8 +94,9 @@ public class Hero : Unit
         Vector2Int startPos = Utility.Round(transform.position);
         int maxDist = 99;
 
-        Dictionary<Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
+
         GameManager.Inst.UpdateGrid();
+        Dictionary<Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
 
         GameManager.Tile start = Grid[startPos];
         start.Walkable = GameManager.Tile.TileStatus.Walkable;
