@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Door : InteractItem
 {
     bool isOpen;
     public List<Sprite> openCloseSprites;
+    private int currentSceneIndex;
 
     private void Start()
     {
         isOpen = false;
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
     }
 
     private void Update()
@@ -42,7 +45,8 @@ public class Door : InteractItem
 
     public void ChangeFloor()
     {
-        Debug.Log("TODO");
+        currentSceneIndex = currentSceneIndex + 1;
+        SceneManager.LoadScene(currentSceneIndex);
     }
 
 }
