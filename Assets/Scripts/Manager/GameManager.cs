@@ -157,8 +157,15 @@ public class GameManager : MonoBehaviour
     public class Tile
     {
         public Vector2Int Position;
-        public bool Walkable;
+        public TileStatus Walkable;
         public Tile Parent;
+
+        public enum TileStatus
+        {
+            Walkable = 00,
+            HasUnit  = 10,
+            Blocked  = 01
+        }
     }
 
     void SetUpGrid(Vector2Int topLeft, Vector2Int bottomRight)
@@ -182,13 +189,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    bool IsWalkable(Vector2Int position)
+    Tile.TileStatus IsWalkable(Vector2Int position)
     {
-        bool walkable = true;
+        Tile.TileStatus status = Tile.TileStatus.Walkable;
         var collision = Physics2D.OverlapPoint(position);
         if (collision != null)
-            walkable = false;
-        return walkable;
+        {
+            if (collision.GetComponent<Unit>() != null)
+                status |= Tile.TileStatus.HasUnit;
+            
+            status |= Tile.TileStatus.Blocked;
+        }
+        return status;
+    }
+
+    bool DoesContainUnit(Vector2Int position)
+    {
+        bool hasUnit = false;
+        var collision = Physics2D.OverlapPoint(position);
+        if (collision != null)
+            hasUnit = collision.GetComponent<Unit>() != null;
+        return hasUnit;
     }
 
     public int GetDistance(Tile a, Tile b)
@@ -250,8 +271,8 @@ public class GameManager : MonoBehaviour
         Tile end = Grid[endPos];
 
         // end must be set to walkable even if not, so that you can walk towards it
-        bool isEndWalkable = end.Walkable;
-        end.Walkable = true;
+        var isEndWalkable = end.Walkable;
+        end.Walkable = Tile.TileStatus.Walkable;
 
         List<Tile> queue = new List<Tile>();
         HashSet<Tile> visited = new HashSet<Tile>();
@@ -267,7 +288,7 @@ public class GameManager : MonoBehaviour
             if (cur.Equals(end))
             {
                 // If you can't walk to the end, walk one tile before
-                if (!isEndWalkable)
+                if (isEndWalkable.HasFlag(Tile.TileStatus.Blocked))
                     end = end.Parent;
                 if (end == start)
                     return null;
@@ -277,7 +298,7 @@ public class GameManager : MonoBehaviour
             List<Tile> neighbours = GetNeighbours(cur);
             foreach (Tile neighbour in neighbours)
             {
-                if (!neighbour.Walkable) continue;
+                if (neighbour.Walkable.HasFlag(Tile.TileStatus.Blocked)) continue;
                 if (visited.Contains(neighbour)) continue;
                 if (GetDistance(start, cur) > maxDist) continue;
                 if (queue.Contains(neighbour)) continue;

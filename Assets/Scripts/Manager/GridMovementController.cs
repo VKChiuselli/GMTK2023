@@ -23,6 +23,8 @@ public class GridMovementController : MonoBehaviour
         GameManager.Inst.UpdateGrid();
 
         GameManager.Tile start = Grid[startPos];
+        start.Walkable = GameManager.Tile.TileStatus.Walkable;
+
 
         List<GameManager.Tile> queue = new List<GameManager.Tile>();
         HashSet<GameManager.Tile> visited = new HashSet<GameManager.Tile>();
@@ -34,15 +36,23 @@ public class GridMovementController : MonoBehaviour
             GameManager.Tile cur = queue[0];
             queue.RemoveAt(0);
             visited.Add(cur);
-            MovementMap.SetTile((Vector3Int)cur.Position, CanMoveTile);
+            if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit))
+            {
+                MovementMap.SetTile((Vector3Int)cur.Position, CantMoveTile);
+            }
+            else
+                MovementMap.SetTile((Vector3Int)cur.Position, CanMoveTile);
 
             List<GameManager.Tile> neighbours = GameManager.Inst.GetNeighbours(cur);
             foreach (GameManager.Tile neighbour in neighbours)
             {
-                if (!neighbour.Walkable) continue;
+                if (neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.Blocked) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit)) continue;
                 if (visited.Contains(neighbour)) continue;
                 if (GameManager.Inst.GetDistance(start, cur) > maxDist) continue;
                 if (queue.Contains(neighbour)) continue;
+
+                // Show ranges that you can walk on but contains a unit on it
+                if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit)) continue;
 
                 neighbour.Parent = cur;
                 queue.Add(neighbour);
