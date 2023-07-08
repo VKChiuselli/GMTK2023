@@ -7,36 +7,49 @@ using UnityEngine.UI;
 public class ChangeSprite : MonoBehaviour
 {
     public List<Image> listOfImages = new List<Image>();
-    public int imageCounter;
+    public int currentMana;
 
     void Start()
     {
-        LoadImages();
-     //   DefaultImage();
+        currentMana = 3;
+        LoadAllMana();
     }
 
-    private void LoadImages()
+    private void LoadAllMana()
     {
-        Debug.Log("TODO");
-    }
-
-    private void DefaultImage()
-    {
-        imageCounter = 0;
-        GetComponent<Image>().sprite = listOfImages[imageCounter].sprite;
-    }
-
-    public void NextImage()
-    {
-        imageCounter = imageCounter + 1;
-        if (imageCounter < listOfImages.Count)
+        foreach (Transform t in transform)
         {
-            GetComponent<Image>().sprite = listOfImages[imageCounter].sprite;
+            transform.gameObject.SetActive(true);
+        }
+    }
+
+    public void RemoveMana(int manaToRemove)
+    {
+        currentMana = currentMana - manaToRemove;
+
+
+        if (currentMana == 2)
+        {
+            transform.GetChild(2).gameObject.SetActive(false);
+        }
+        else
+        if (currentMana == 1)
+        {
+            transform.GetChild(2).gameObject.SetActive(false);
+            transform.GetChild(1).gameObject.SetActive(false);
+        }
+        if (currentMana == 0)
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(1).gameObject.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(false);
         }
         else
         {
-            GetComponent<Image>().sprite = listOfImages[listOfImages.Count - 1].sprite;
+            Debug.Log("Too much mana spent");
         }
     }
+
+
 
 }
