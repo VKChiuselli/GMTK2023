@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Door : InteractItem
+public class Door : InteractableEntity
 {
     bool isOpen;
     public List<Sprite> openCloseSprites;
@@ -43,10 +43,22 @@ public class Door : InteractItem
         GetComponent<SFX>().PlayFirstEffect();
     }
 
+    public void PlayLockedDoorSFX()
+    {
+        GetComponent<SFX>().PlaySecondEffect();
+    }
+
 
     public override void InteractWith(Unit unit)
     {
-        ChangeFloor();
+        if (Inventory.Instance.TryUseKey())
+        {
+            ChangeFloor();
+        }
+        else
+        {
+            PlayLockedDoorSFX();
+        }
     }
 
     public void ChangeFloor()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Key : InteractItem
+public class Key : InteractableEntity
 {
     bool isPickedUp;
     Door door;
@@ -19,7 +19,8 @@ public class Key : InteractItem
     public override void InteractWith(Unit unit)
     {
         isPickedUp = true;
-        OpenDoor();
+        Inventory.Instance.AddKey();
+        //OpenDoor();
         PlayPickKeySFX();
     }
 

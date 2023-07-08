@@ -204,9 +204,9 @@ public class GameManager : MonoBehaviour
                     if (unit._isMoving)
                     {
                         _isMovingUnits = true;
-                        yield return null;
                     }
                 }
+                yield return null;
             }
             _isMovingUnits = true;
             //yield return new WaitForSeconds(1f);

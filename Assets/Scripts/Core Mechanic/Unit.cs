@@ -71,7 +71,6 @@ public class Unit : MonoBehaviour
                 transform.position = (Vector2)path[^1];
                 _spriteObject.position = pos;
                 StartCoroutine(MoveCoroutine(path));
-                _isMoving = true;
             }
         }
     }
@@ -87,7 +86,7 @@ public class Unit : MonoBehaviour
             {
                 foreach (var potentialInteractible in potentials)
                 {
-                    if (potentialInteractible.TryGetComponent(out InteractItem interactible))
+                    if (potentialInteractible.TryGetComponent(out InteractableEntity interactible))
                     {
                         if (interactible)
                         {
@@ -178,6 +177,9 @@ public class Unit : MonoBehaviour
     }
 
 
+    public virtual void Death(Unit causeOfDeath)
+    { }
+    
     public virtual void AILogic()
     { }
 

@@ -1,10 +1,13 @@
+using System.Security.AccessControl;
 using Assets.Scripts;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 public class Hero : Unit
 {
+
     /*
          * Priorities------------
          * Spotlight
@@ -29,9 +32,20 @@ public class Hero : Unit
 
     public override void AILogic()
     {
-        List<GameObject> objs = GetObjectsInRange(false);
+        List<GameObject> objsTest = GetObjectsInRange(false);
+        objsTest.OrderBy(x => Utility.Distance(transform.position, x.transform.position));
+        // print names of all objsTest gameobjects
+        
 
-        // Find closeset chest
+
+        List<PointOfInterest> objs = GetObjectsInRange(false, true);
+        Debug.Log(objs.Count);
+        Debug.Log(objsTest.Count);
+
+        if (objsTest.Count > 0)
+            MoveTowards(Utility.Round(objsTest[0].transform.position));
+
+        /*// Find closeset chest
         GameObject closest = GetClosestObject(objs.FindAll(x => x.GetComponent<Chest>() != null));
         if (closest != null)
         {
@@ -55,17 +69,35 @@ public class Hero : Unit
 
         // Find enemies
 
+        */
         // Do something???
     }
 
+    public List<PointOfInterest> GetObjectsInRange(bool showRange, bool diffthantheotherone)
+    {
+        List<PointOfInterest> visibleObjects = new List<PointOfInterest>();
+        Vector2Int startPos = Utility.Round(transform.position);
+        
+
+        visibleObjects = Physics2D.OverlapCircleAll(transform.position, 999).ToList()
+            .FindAll(x => !GameManager.Inst.LineOfSightBlocked(startPos, Utility.Round(x.transform.position)))
+            .ConvertAll(x => x.GetComponent<PointOfInterest>())
+            .FindAll(x => x != null);
+        visibleObjects.OrderBy(x => Utility.Distance(transform.position, x.transform.position));
+        return visibleObjects;
+        // visibleObjects.Add(GetObjectsLitUpBySpotlight())
+    }
+
+    // TODO: Remove probably?
     public List<GameObject> GetObjectsInRange(bool showRange)
     {
         List<GameObject> obj = new List<GameObject>();
         Vector2Int startPos = Utility.Round(transform.position);
         int maxDist = 99;
 
-        Dictionary<Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
+
         GameManager.Inst.UpdateGrid();
+        Dictionary<Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
 
         GameManager.Tile start = Grid[startPos];
         start.Walkable = GameManager.Tile.TileStatus.Walkable;

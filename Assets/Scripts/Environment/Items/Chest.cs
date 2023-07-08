@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chest : InteractItem
+public class Chest : InteractableEntity
 {
     bool isOpen;
     bool isEmpty;
-    public List<Sprite> openCloseSprites;
-    public GameObject itemContained;
-
+    public List<Sprite> openCloseSprites; 
+    public InventoryItem itemContained;
+     
+    FunBarManager funBarManager; 
     private void Start()
     {
         itemContained = null;
         isOpen = false;
         isEmpty = true;
+        funBarManager = FindObjectOfType<FunBarManager>();
     }
 
     private void Update()
@@ -41,34 +43,47 @@ public class Chest : InteractItem
     {
         if (unit.GetType() == typeof(Hero))
         {
-            if (isOpen)
+            OpenChest();
+            
+            if (!isEmpty)
             {
+ 
+                Inventory.Instance.AddItem(LootItem());
+                Debug.Log("Looted the chest");
+ 
                 if (!isEmpty)
                 {
                     Debug.Log("Adding item from chest to inventory");
+                    if (funBarManager != null)
+                    {
+                        funBarManager.ChangeFunBarCounter(20);
+                    }
                 }
                 else
                 {
+          
                     Debug.Log("Chest is empty");
                 }
+ 
             }
             else
             {
-                OpenChest();
-                Debug.Log("Chest was opened");
-                Destroy(gameObject, 1);
+                Debug.Log("Chest is empty");
+                if (funBarManager != null)
+                {
+                    funBarManager.ChangeFunBarCounter(-10);
+                }
             }
         }
     }
 
-
-    public void InsertItem(GameObject insertItem)
+    public void InsertItem(InventoryItem insertItem)
     {
         itemContained = insertItem;
         isEmpty = false;
     }
 
-    public GameObject LootItem()
+    public InventoryItem LootItem()
     {
         isEmpty = true;
         return itemContained;
