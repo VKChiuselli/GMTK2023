@@ -44,6 +44,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Drag"",
+                    ""type"": ""Button"",
+                    ""id"": ""d9e2755d-eede-4d68-85d3-8c7e0da125e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +77,17 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""MouseLocation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a91fe968-751b-4bb5-a5f2-69f208577937"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -78,6 +98,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
         m_Player_MouseLocation = m_Player.FindAction("MouseLocation", throwIfNotFound: true);
+        m_Player_Drag = m_Player.FindAction("Drag", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -139,12 +160,14 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Click;
     private readonly InputAction m_Player_MouseLocation;
+    private readonly InputAction m_Player_Drag;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
         public PlayerActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Click => m_Wrapper.m_Player_Click;
         public InputAction @MouseLocation => m_Wrapper.m_Player_MouseLocation;
+        public InputAction @Drag => m_Wrapper.m_Player_Drag;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -160,6 +183,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @MouseLocation.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseLocation;
                 @MouseLocation.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseLocation;
                 @MouseLocation.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseLocation;
+                @Drag.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrag;
+                @Drag.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrag;
+                @Drag.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrag;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -170,6 +196,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @MouseLocation.started += instance.OnMouseLocation;
                 @MouseLocation.performed += instance.OnMouseLocation;
                 @MouseLocation.canceled += instance.OnMouseLocation;
+                @Drag.started += instance.OnDrag;
+                @Drag.performed += instance.OnDrag;
+                @Drag.canceled += instance.OnDrag;
             }
         }
     }
@@ -178,5 +207,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     {
         void OnClick(InputAction.CallbackContext context);
         void OnMouseLocation(InputAction.CallbackContext context);
+        void OnDrag(InputAction.CallbackContext context);
     }
 }
