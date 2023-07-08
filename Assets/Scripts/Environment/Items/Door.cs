@@ -41,7 +41,13 @@ public class Door : InteractItem
     public void PlayOpenDoorSFX()
     {
         GetComponent<SFX>().PlayFirstEffect();
-    } 
+    }
+
+
+    public override void InteractWith(Unit unit)
+    {
+        ChangeFloor();
+    }
 
     public void ChangeFloor()
     {
