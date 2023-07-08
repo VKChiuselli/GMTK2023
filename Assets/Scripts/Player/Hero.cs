@@ -57,6 +57,7 @@ public class Hero : Unit
                 Chest chest = closest.GetComponent<Chest>();
                 if (chest !=null)
                 {
+                    chest.InteractWith(this);
                     // Interact with chest
                 }
             }

@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8262301499141273190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8262301499141273189}
+  - component: {fileID: 8262301499141273188}
+  - component: {fileID: 8262301499141273195}
+  - component: {fileID: 8262301499141273194}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8262301499141273189
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262301499141273190}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.08302956, y: 0.87542, z: -9.907983}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8262301499141273188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262301499141273190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c4e7e5c5fa28a24caa0fae79dc41b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerUnit: {fileID: 0}
+  Cursor: {fileID: 0}
+  Heroes:
+  - {fileID: 0}
+  Enemies: []
+  TopLeftBounds: {x: -10, y: -10}
+  BottomRightBounds: {x: 10, y: 10}
+  MovementSpeed: 10
+  CurrentTurn: 0
+--- !u!114 &8262301499141273195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262301499141273190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f448d94c533df24ead3205d203f5287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MovementMap: {fileID: 0}
+  CanMoveTile: {fileID: 11400000, guid: 2feec715e1a9d0243beb7c90bba8dc2d, type: 2}
+  CantMoveTile: {fileID: 11400000, guid: 2be5334686285ba4b9747bb223fea15e, type: 2}
+  PathTile: {fileID: 11400000, guid: fe1e2f177bb3c8743ab79b7efb63b146, type: 2}
+  PathTileCorner: {fileID: 11400000, guid: f533957a4127151469c2e4bcd86eb14d, type: 2}
+  EndTile: {fileID: 11400000, guid: ec858a1f020ddce478db4fc782cb6985, type: 2}
+  Visibility: {fileID: 11400000, guid: 2be5334686285ba4b9747bb223fea15e, type: 2}
+--- !u!114 &8262301499141273194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262301499141273190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3094826304e3cf47967aaff55ef3d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShadowMap: {fileID: 0}
+  Shadow: {fileID: 11400000, guid: e30a1409c984e16458b4357da02c34e6, type: 2}

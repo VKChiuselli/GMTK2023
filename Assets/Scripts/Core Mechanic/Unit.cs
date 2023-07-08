@@ -30,7 +30,7 @@ public class Unit : MonoBehaviour
         
     }
 
-    public virtual void Move(Vector2 target)
+    public virtual bool Move(Vector2Int target)
     {
         if (!_isMoving)
         {
@@ -46,10 +46,18 @@ public class Unit : MonoBehaviour
                 StartCoroutine(MoveCoroutine(path));
             }
         }
+
+        return _isMoving;
     }
 
     // Similar to move, but will try to move if there is a path regardless of distance
-    public virtual bool MoveTowards(Vector2 target)
+
+    /// <summary>
+    /// Returns true if the unit can move to the target
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public virtual bool MoveTowards(Vector2Int target)
     {
         bool canMoveToTarget = false;
         if (!_isMoving)
