@@ -4,20 +4,49 @@ using UnityEngine;
 
 public class SFX : MonoBehaviour
 {
- 
-    public AudioClip soundEffect; // Sound effect to play
-    private AudioSource audioSource;
+
+    public AudioClip firstEffect; // Sound effect to play
+    public AudioClip secondEffect; // Sound effect to play
+    public AudioClip thirdEffect; // Sound effect to play
+    private  AudioSource audioSource;
 
     private void Start()
     {
-        // Get the AudioSource component attached to this game object
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlaySoundEffect()
+    public void PlayFirstEffect()
     {
-        // Play the sound effect
-        audioSource.PlayOneShot(soundEffect);
+        if (audioSource != null)
+        {
+            if (firstEffect != null)
+            {
+                audioSource.PlayOneShot(firstEffect);
+            }
+        }
+          
     }
-}
+    public void PlaySecondEffect()
+    {
+        if (audioSource != null)
+        {
+            if (secondEffect != null)
+            {
+                audioSource.PlayOneShot(secondEffect);
+            }
+        }
+    }
+    public void PlayThirdEffect()
+    {
+        if (audioSource != null)
+        {
+            if (thirdEffect != null)
+            {
+                audioSource.PlayOneShot(thirdEffect);
+            }
+        }
+
+    }
  
+}
+
