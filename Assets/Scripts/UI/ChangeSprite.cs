@@ -12,12 +12,12 @@ public class ChangeSprite : MonoBehaviour
     void Start()
     {
         LoadImages();
-        DefaultImage();
+     //   DefaultImage();
     }
 
     private void LoadImages()
     {
-        throw new NotImplementedException();
+        Debug.Log("TODO");
     }
 
     private void DefaultImage()
