@@ -6,14 +6,16 @@ public class Chest : InteractableEntity
 {
     bool isOpen;
     bool isEmpty;
-    public List<Sprite> openCloseSprites;
+    public List<Sprite> openCloseSprites; 
     public InventoryItem itemContained;
-
+     
+    FunBarManager funBarManager; 
     private void Start()
     {
         itemContained = null;
         isOpen = false;
         isEmpty = true;
+        funBarManager = FindObjectOfType<FunBarManager>();
     }
 
     private void Update()
@@ -45,8 +47,23 @@ public class Chest : InteractableEntity
             
             if (!isEmpty)
             {
+ 
                 Inventory.Instance.AddItem(LootItem());
                 Debug.Log("Looted the chest");
+ 
+                if (!isEmpty)
+                {
+                    Debug.Log("Adding item from chest to inventory");
+                }
+                else
+                {
+                    if (funBarManager != null)
+                    {
+                        funBarManager.ChangeFunBarCounter(-10);
+                    }
+                    Debug.Log("Chest is empty");
+                }
+ 
             }
             else
             {
