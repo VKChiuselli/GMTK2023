@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Inst;
     public PlayerInput inputActions;
 
-    public Unit PlayerUnit;
+    public Player PlayerUnit;
     public GameObject Cursor;
 
     //TODO an automated way to populate this
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         Vector2 mousePosition = inputActions.Player.MouseLocation.ReadValue<Vector2>();
         Vector2Int cursorPosition = Utility.Round(Camera.main.ScreenToWorldPoint(mousePosition));
         _gridController.ClearGrid();
-        _gridController.DrawWalkablePath(Utility.Round(PlayerUnit.transform.position), PlayerUnit.MaxMovement);
+        _gridController.DrawWalkablePath(Utility.Round(PlayerUnit.transform.position), PlayerUnit.MaxMovement, PlayerUnit.IgnoreWalls);
         List<Vector2Int> path = FindPath(PlayerUnit.transform.position, cursorPosition, PlayerUnit.MaxMovement);
         _gridController.DrawMovementPath(path, Utility.Round(PlayerUnit.transform.position));
     }
@@ -133,7 +133,8 @@ public class GameManager : MonoBehaviour
                 AIControls(Enemies);
                 break;
             case TurnId.Traps:
-                CurrentTurn = TurnId.Player;
+                _isNextTurn = true;
+                NextTurn();
                 break;
             default:
                 break;
@@ -155,7 +156,7 @@ public class GameManager : MonoBehaviour
             if (click)
             {
                 _isMovingUnits = true;
-                if (PlayerUnit.Move(mousePosition))
+                if (PlayerUnit.Move(Utility.Round(mousePosition)))
                 {
                     _isNextTurn = true;
                 }
@@ -164,7 +165,10 @@ public class GameManager : MonoBehaviour
         else if (!PlayerUnit._isMoving)
         {
             _isMovingUnits = false;
-            NextTurn();
+            if (PlayerUnit.Mana <= 0)
+            {
+                NextTurn();
+            }
         }
     }
 
@@ -220,6 +224,9 @@ public class GameManager : MonoBehaviour
             if (CurrentTurn > TurnId.Traps)
                 CurrentTurn = TurnId.Player;
             _isNextTurn = false;
+
+            if (CurrentTurn == TurnId.Player)
+                PlayerUnit.RegenerateMana();
         }
     }
 

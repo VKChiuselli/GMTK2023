@@ -30,7 +30,7 @@ public class Unit : MonoBehaviour
         
     }
 
-    public virtual bool Move(Vector2 target)
+    public virtual bool Move(Vector2Int target)
     {
         if (!_isMoving)
         {
@@ -52,7 +52,7 @@ public class Unit : MonoBehaviour
     }
 
     // Similar to move, but will try to move if there is a path regardless of distance
-    public virtual void MoveTowards(Vector2 target)
+    public virtual void MoveTowards(Vector2Int target)
     {
         if (!_isMoving)
         {

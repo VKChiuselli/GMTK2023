@@ -18,7 +18,7 @@ public class GridMovementController : MonoBehaviour
         MovementMap.ClearAllTiles();
     }
 
-    public void DrawWalkablePath(Vector2Int startPos, int maxDist)
+    public void DrawWalkablePath(Vector2Int startPos, int maxDist, bool ignoreWalls)
     {
         Dictionary<Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
         GameManager.Inst.UpdateGrid();
@@ -37,17 +37,16 @@ public class GridMovementController : MonoBehaviour
             GameManager.Tile cur = queue[0];
             queue.RemoveAt(0);
             visited.Add(cur);
-            if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit))
-            {
+
+            if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) || cur.Walkable.HasFlag(GameManager.Tile.TileStatus.Blocked))
                 MovementMap.SetTile((Vector3Int)cur.Position, CantMoveTile);
-            }
             else
                 MovementMap.SetTile((Vector3Int)cur.Position, CanMoveTile);
 
             List<GameManager.Tile> neighbours = GameManager.Inst.GetNeighbours(cur);
             foreach (GameManager.Tile neighbour in neighbours)
             {
-                if (neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.Blocked) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit)) continue;
+                if (neighbour.Walkable == GameManager.Tile.TileStatus.Blocked && !ignoreWalls) continue;
                 if (visited.Contains(neighbour)) continue;
                 if (GameManager.Inst.GetDistance(start, cur) >= maxDist) continue;
                 if (queue.Contains(neighbour)) continue;
