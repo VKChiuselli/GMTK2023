@@ -1,4 +1,6 @@
+using System.Security.AccessControl;
 using Assets.Scripts;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,9 +32,13 @@ public class Hero : Unit
 
     public override void AILogic()
     {
-        List<GameObject> objs = GetObjectsInRange(false);
+        //List<GameObject> objs = GetObjectsInRange(false);
+        List<PointOfInterest> objs = GetObjectsInRange(false, true);
 
-        // Find closeset chest
+        if (objs.Count > 0)
+            MoveTowards(Uility.Round(objs[0].transform.position));
+
+        /*// Find closeset chest
         GameObject closest = GetClosestObject(objs.FindAll(x => x.GetComponent<Chest>() != null));
         if (closest != null)
         {
@@ -55,9 +61,26 @@ public class Hero : Unit
 
         // Find enemies
 
+        */
         // Do something???
     }
 
+    public List<PointOfInterest> GetObjectsInRange(bool showRange, bool diffthantheotherone)
+    {
+        List<PointOfInterest> visibleObjects = new List<PointOfInterest>();
+        Vector2Int startPos = Utility.Round(transform.position);
+        
+
+        visibleObjects = Physics2D.OverlapCircleAll(transform.position, _light.Range).ToList()
+            .FindAll(x => GameManager.Inst.LineOfSightBlocked(startPos, Utility.Round(x.transform.position)))
+            .ConvertAll(x => x.GetComponent<PointOfInterest>())
+            .FindAll(x => x != null);
+        visibleObjects.OrderBy(x => Utility.Distance(transform.position, x.transform.position));
+        return visibleObjects;
+        // visibleObjects.Add(GetObjectsLitUpBySpotlight())
+    }
+
+    // TODO: Remove probably?
     public List<GameObject> GetObjectsInRange(bool showRange)
     {
         List<GameObject> obj = new List<GameObject>();
