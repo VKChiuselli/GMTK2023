@@ -17,7 +17,23 @@ Font:
   m_CharacterSpacing: 0
   m_CharacterPadding: 1
   m_ConvertCase: 0
-  m_CharacterRects: []
+  m_CharacterRects:
+  - serializedVersion: 2
+    index: 0
+    uv:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 8
+      height: 8
+    vert:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    advance: 0
+    flipped: 0
   m_KerningValues: []
   m_PixelScale: 0.1
   m_FontData: 
