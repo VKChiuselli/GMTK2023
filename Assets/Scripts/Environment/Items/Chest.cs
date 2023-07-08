@@ -7,7 +7,7 @@ public class Chest : InteractableEntity
     bool isOpen;
     bool isEmpty;
     public List<Sprite> openCloseSprites;
-    public GameObject itemContained;
+    public InventoryItem itemContained;
 
     private void Start()
     {
@@ -55,13 +55,13 @@ public class Chest : InteractableEntity
         }
     }
 
-    public void InsertItem(GameObject insertItem)
+    public void InsertItem(InventoryItem insertItem)
     {
         itemContained = insertItem;
         isEmpty = false;
     }
 
-    public GameObject LootItem()
+    public InventoryItem LootItem()
     {
         isEmpty = true;
         return itemContained;
