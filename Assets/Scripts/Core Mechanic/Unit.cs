@@ -176,6 +176,9 @@ public class Unit : MonoBehaviour
     }
 
 
+    public virtual void Death(Unit causeOfDeath)
+    { }
+    
     public virtual void AILogic()
     { }
 
