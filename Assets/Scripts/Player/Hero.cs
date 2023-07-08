@@ -36,7 +36,7 @@ public class Hero : Unit
         List<PointOfInterest> objs = GetObjectsInRange(false, true);
 
         if (objs.Count > 0)
-            MoveTowards(Uility.Round(objs[0].transform.position));
+            MoveTowards(Utility.Round(objs[0].transform.position));
 
         /*// Find closeset chest
         GameObject closest = GetClosestObject(objs.FindAll(x => x.GetComponent<Chest>() != null));
