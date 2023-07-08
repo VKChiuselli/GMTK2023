@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public TurnId CurrentTurn = TurnId.Player;
 
     private GridMovementController _gridController;
+    private ShadowGridController _shadowController;
 
     public enum TurnId
     {
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
     {
         SetUpGrid(TopLeftBounds, BottomRightBounds);
         _gridController = GetComponent<GridMovementController>();
+        _shadowController = GetComponent<ShadowGridController>();
     }
 
     private void OnEnable()
@@ -66,11 +68,22 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Vector2 mousePosition = inputActions.Player.MouseLocation.ReadValue<Vector2>();
-        Vector2Int cursorPosition = Utility.Round(Camera.main.ScreenToWorldPoint(mousePosition));
-
         UnitController();
         CursorController();
+        MovementGridUpdate();
+        ShadowGridUpdate();
+    }
+
+    void ShadowGridUpdate()
+    {
+        _shadowController.DrawShadow();
+        _shadowController.DrawVisibility(new List<LightRange>(FindObjectsOfType<LightRange>()));
+    }
+
+    void MovementGridUpdate()
+    {
+        Vector2 mousePosition = inputActions.Player.MouseLocation.ReadValue<Vector2>();
+        Vector2Int cursorPosition = Utility.Round(Camera.main.ScreenToWorldPoint(mousePosition));
         _gridController.ClearGrid();
         _gridController.DrawWalkablePath(Utility.Round(PlayerUnit.transform.position), PlayerUnit.MaxMovement);
         List<Vector2Int> path = FindPath(PlayerUnit.transform.position, cursorPosition, PlayerUnit.MaxMovement);
@@ -159,6 +172,7 @@ public class GameManager : MonoBehaviour
         public Vector2Int Position;
         public TileStatus Walkable;
         public Tile Parent;
+        public bool IsVisible = true;
 
         public enum TileStatus
         {
@@ -201,15 +215,6 @@ public class GameManager : MonoBehaviour
             status |= Tile.TileStatus.Blocked;
         }
         return status;
-    }
-
-    bool DoesContainUnit(Vector2Int position)
-    {
-        bool hasUnit = false;
-        var collision = Physics2D.OverlapPoint(position);
-        if (collision != null)
-            hasUnit = collision.GetComponent<Unit>() != null;
-        return hasUnit;
     }
 
     public int GetDistance(Tile a, Tile b)
