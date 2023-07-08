@@ -54,13 +54,14 @@ public class Chest : InteractableEntity
                 if (!isEmpty)
                 {
                     Debug.Log("Adding item from chest to inventory");
+                    if (funBarManager != null)
+                    {
+                        funBarManager.ChangeFunBarCounter(20);
+                    }
                 }
                 else
                 {
-                    if (funBarManager != null)
-                    {
-                        funBarManager.ChangeFunBarCounter(-10);
-                    }
+          
                     Debug.Log("Chest is empty");
                 }
  
@@ -68,6 +69,10 @@ public class Chest : InteractableEntity
             else
             {
                 Debug.Log("Chest is empty");
+                if (funBarManager != null)
+                {
+                    funBarManager.ChangeFunBarCounter(-10);
+                }
             }
         }
     }
