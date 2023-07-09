@@ -51,6 +51,7 @@ public class Hero : Unit
         }
         */
         List<GameObject> objs = GetObjectsInRange(false);
+        if (TargetClosest<Trap>(objs)) return;
         // Find closeset chest
         if (TargetClosest<Chest>(objs)) return;
         // Find keys
@@ -60,7 +61,7 @@ public class Hero : Unit
         // Find enemies
 
         // Do something???
-        if (TargetClosest<Trap>(objs)) return;
+
     }
 
     private bool TargetClosest<T>(List<GameObject> interactable)

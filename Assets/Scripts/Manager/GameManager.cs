@@ -59,6 +59,17 @@ public class GameManager : MonoBehaviour
 
         if (PlayerUnit == null)
             PlayerUnit = FindObjectOfType<Player>();
+
+
+        // Auto populate enemy
+        var objs = FindObjectsOfType<Unit>();
+        foreach(var obj in objs)
+        {
+            if (obj is not Player && obj is not Hero && !Enemies.Contains(obj))
+            {
+                Enemies.Add(obj);
+            }
+        }
     }
 
     private void OnEnable()
