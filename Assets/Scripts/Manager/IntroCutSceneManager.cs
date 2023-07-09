@@ -7,6 +7,7 @@ public class IntroCutSceneManager : MonoBehaviour
 {
 
     public List<GameObject> cutSceneObjects;
+  [SerializeField]  public AudioSource audiosource;
     int currentIndex;
 
     private void Start()
@@ -68,6 +69,10 @@ public class IntroCutSceneManager : MonoBehaviour
             }
             else
             {
+                if (audiosource != null)
+                {
+                    audiosource.volume = 0.3f;
+                }
                 gameObject.SetActive(false);
             }
              
