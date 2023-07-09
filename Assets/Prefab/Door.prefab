@@ -270,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cca423761f4165d44a5c3548779a9168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wasVisited: 0
   openCloseSprites:
   - {fileID: 21300000, guid: 0013af22feea44041b713bc548ca040e, type: 3}
   - {fileID: 21300000, guid: 879f1ba803e041e4a9a47943247db84e, type: 3}

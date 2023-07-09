@@ -8,7 +8,8 @@ public class ShadowGridController : MonoBehaviour
 {
     public Tilemap ShadowMap;
     public Tile Shadow;
-
+    [SerializeField]
+    private bool _switch = false;
     public void DrawShadow()
     {
         Vector2Int topLeft = GameManager.Inst.TopLeftBounds;
@@ -35,17 +36,28 @@ public class ShadowGridController : MonoBehaviour
             Vector2Int startPos = Utility.Round(light.transform.position);
             int maxDist = light.Range;
 
-            Dictionary <Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
             GameManager.Inst.UpdateGrid();
+
+            if (_switch)
+            {
+                Dictionary <Vector2Int, GameManager.Tile> Grid2 = GameManager.Inst.Grid.GetTilesInRange(startPos, maxDist, true);
+                foreach (var tile in Grid2.Values)
+                {
+                    ShadowMap.SetTile((Vector3Int)tile.Position, null);
+                }
+                continue;
+            }
+
+
+            Dictionary <Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
+
+
 
             GameManager.Tile start = Grid[startPos];
             start.Walkable = GameManager.Tile.TileStatus.Walkable;
-
-
             List<GameManager.Tile> queue = new List<GameManager.Tile>();
             HashSet<GameManager.Tile> visited = new HashSet<GameManager.Tile>();
             queue.Add(start);
-
             // Fail safe for the loop at the end
             while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4 + 6)
             {

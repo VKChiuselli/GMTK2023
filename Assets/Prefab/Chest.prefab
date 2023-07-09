@@ -161,6 +161,7 @@ MonoBehaviour:
   firstEffect: {fileID: 8300000, guid: c4dae5813f750eb4387828bd28d388e4, type: 3}
   secondEffect: {fileID: 8300000, guid: 0bded020fb04ba647b4234ad5bd5cd4d, type: 3}
   thirdEffect: {fileID: 0}
+  severalEffects: []
 --- !u!114 &1956507653374419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,9 +174,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2b07781e49cfa6468f4663be5f712b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wasVisited: 0
   openCloseSprites:
   - {fileID: 21300000, guid: ac6de9eb5cb6ac7408a830b6e96095fb, type: 3}
   - {fileID: 21300000, guid: b768513163422a044b69723fd0bcc926, type: 3}
+  itemContained: {fileID: 0}
 --- !u!82 &5868930489074783861
 AudioSource:
   m_ObjectHideFlags: 0

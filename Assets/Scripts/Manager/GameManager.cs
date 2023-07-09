@@ -296,7 +296,7 @@ public class GameManager : MonoBehaviour
         _gridController.DrawHeroVisibility(pos);
     }
 
-    public bool LineOfSightBlocked(Vector2Int start, Vector2Int end)
+    public bool LineOfSightBlocked(Vector2Int start, Vector2Int end, bool includeEntities = false)
     {
         bool isBlocked = false;
         // Disable start and end
@@ -305,7 +305,15 @@ public class GameManager : MonoBehaviour
         foreach (var c in collision)
         {
             if (c.collider != null && (Vector2)c.transform.position != end && (Vector2)c.transform.position != start)
+            {
                 isBlocked = c.collider.CompareTag("Wall");
+                if (includeEntities && Utility.Distance(start, c.point) > 1.5f)
+                    isBlocked |= c.collider.CompareTag("Entity");
+                if (isBlocked)
+                {
+                    break;
+                }
+            }
         }
 
         return isBlocked;

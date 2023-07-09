@@ -3268,6 +3268,10 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 8262301499141273194, guid: a2b429b4faafd4a43aa9cf84844f596c, type: 3}
+      propertyPath: _switch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262301499141273194, guid: a2b429b4faafd4a43aa9cf84844f596c, type: 3}
       propertyPath: ShadowMap
       value: 
       objectReference: {fileID: 1401818681}

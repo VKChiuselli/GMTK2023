@@ -197,6 +197,7 @@ MonoBehaviour:
   firstEffect: {fileID: 8300000, guid: f1600594cc294e247a99d19a36f5a68a, type: 3}
   secondEffect: {fileID: 8300000, guid: ec6d21adaca3346458573b398e8cdb28, type: 3}
   thirdEffect: {fileID: 8300000, guid: 67946b54d490e224ca518ce416c045ec, type: 3}
+  severalEffects: []
 --- !u!114 &3064614946934893913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,3 +211,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxMovement: 3
+  _isMoving: 0
+  _currentLookDirection: {x: 0, y: -1}
