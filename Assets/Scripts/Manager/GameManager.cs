@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
     private bool _isNextTurn = false;
 
     public Material HitMat;
+    public GameObject SurprisedEffect;
+
+    public GameOverScreen GameOverScreen;
 
     public enum TurnId
     {
@@ -88,6 +91,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameOverScreen.isActiveAndEnabled) return;
         MovementGridUpdate();
         ShadowGridUpdate();
         HoverInfo();
@@ -235,8 +239,11 @@ public class GameManager : MonoBehaviour
             _isMovingUnits = true;
             foreach (var unit in units)
             {
-                unit.AILogic();
-                yield return new WaitForSeconds(0.05f);
+                if (unit != null)
+                {
+                    unit.AILogic();
+                    yield return new WaitForSeconds(0.05f);
+                }
             }
 
             while (_isMovingUnits)
@@ -469,5 +476,17 @@ public class GameManager : MonoBehaviour
         if (queue.Count > maxDist * maxDist && maxDist != 1)
             Debug.LogError("BFS Search reached maxed. Max dist is " + maxDist.ToString());
         return null;
+    }
+
+    public void GameOverHeroDeath()
+    {
+        GameOverScreen.SetGameOverReason("Hero Died");
+        GameOverScreen.gameObject.SetActive(true);
+    }
+
+    public void GameOverHeroSawParent()
+    {
+        GameOverScreen.SetGameOverReason("Hero Saw You");
+        GameOverScreen.gameObject.SetActive(true);
     }
 }

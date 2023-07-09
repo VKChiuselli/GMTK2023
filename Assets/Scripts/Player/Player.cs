@@ -7,7 +7,6 @@ using UnityEngine;
 public class Player : Unit
 {
     public int MaxMana = 3;
- //   [HideInInspector]
     public int Mana = 5;
     public Abilities CurrentAbility = Abilities.Walk;
     //public RectTransform ManaImage;
@@ -41,6 +40,11 @@ public class Player : Unit
     {
         base.Update();
      //   ManaImage.sizeDelta = new Vector2(Mana * 100, 100);
+    }
+
+    public override void Death(Unit causeOfDeath)
+    {
+        //Player shoulnt die
     }
 
     public override bool Move(Vector2Int target)
@@ -213,9 +217,9 @@ public class Player : Unit
                 )
             {
                 Unit unit = GetUnitAtPoint(target);
-                if (unit != null)
+                if (unit != null && unit!= this)
                 {
-                    Hit(unit);
+                    unit.Hit(this);
                 }
                 PlayFireSFX();
                 StartCoroutine(FireballCoroutine(target));
@@ -332,6 +336,6 @@ public class Player : Unit
 
     public void PlayTeleportSFX()
     {
-        GetComponent<SFX>().PlayThirdEffect();
+        GetComponent<SFX>().PlayOneSpecific(0);
     }
 }

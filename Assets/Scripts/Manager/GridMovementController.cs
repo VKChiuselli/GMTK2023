@@ -52,7 +52,7 @@ public class GridMovementController : MonoBehaviour
                 if (queue.Contains(neighbour)) continue;
 
                 // Show ranges that you can walk on but contains a unit on it
-                if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit)) continue;
+                if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) && !ignoreWalls) continue;
 
                 if (needLineOfSite && GameManager.Inst.LineOfSightBlocked(startPos, neighbour.Position)) continue;
 

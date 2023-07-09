@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private Material _defaultMat;
-    private Material HitMat;
+    public Material HitMat;
 
 
     // Start is called before the first frame update
@@ -27,7 +27,7 @@ public class Unit : MonoBehaviour
     
     protected virtual void Start()
     {
-        HitMat = GameManager.Inst.HitMat;
+        HitMat = Instantiate(GameManager.Inst.HitMat);
     }
 
     // Update is called once per frame
@@ -323,7 +323,7 @@ public class Unit : MonoBehaviour
             if (collision != null)
             {
                 var u = collision.gameObject.GetComponent<Unit>();
-                if (u != null)
+                if (u != null && unit != this)
                 {
                     unit = u;
                     break;
