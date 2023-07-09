@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a41a49b15ceeb44995106bd0e2788d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxMovement: 3
+  MaxMovement: 1
   _isMoving: 0
   _currentLookDirection: {x: 0, y: -1}
   HitMat: {fileID: 2100000, guid: 2a42ae5c6441b2646bfd30115de203c1, type: 2}
