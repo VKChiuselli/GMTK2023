@@ -478,15 +478,30 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    public void SkipTurn()
+    {
+        if (CurrentTurn == TurnId.Player)
+        {
+            _isNextTurn = true;
+            NextTurn();
+        }
+    }
+
     public void GameOverHeroDeath()
     {
-        GameOverScreen.SetGameOverReason("Hero Died");
+        string reason = "My son died!";
+        // if turn is player
+        if (CurrentTurn == TurnId.Player)
+        {
+            reason = "How could you make me kill him?!";
+        }
+        GameOverScreen.SetGameOverReason(reason);
         GameOverScreen.gameObject.SetActive(true);
     }
 
     public void GameOverHeroSawParent()
     {
-        GameOverScreen.SetGameOverReason("Hero Saw You");
+        GameOverScreen.SetGameOverReason("He saw me!");
         GameOverScreen.gameObject.SetActive(true);
     }
 }
