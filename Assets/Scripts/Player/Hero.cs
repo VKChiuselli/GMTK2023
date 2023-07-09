@@ -85,8 +85,7 @@ public class Hero : Unit
         visibleObjects = Physics2D.OverlapCircleAll(transform.position, 999).ToList()
             .FindAll(x => !GameManager.Inst.LineOfSightBlocked(startPos, Utility.Round(x.transform.position)))
             .ConvertAll(x => x.GetComponent<PointOfInterest>())
-            .FindAll(x => x != null)
-            .FindAll(x => !x.wasVisited && x.IsVisibleToHero);
+            .FindAll(x => (x != null) && x.IsVisibleToHero && !x.wasVisited);
         visibleObjects.OrderBy(x => Utility.Distance(transform.position, x.transform.position));
         return visibleObjects;
         // visibleObjects.Add(GetObjectsLitUpBySpotlight())

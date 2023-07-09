@@ -267,10 +267,13 @@ public class GameManager : MonoBehaviour
     }
 
     public void UpdateGrid()
-    {
-        foreach(Vector2Int pos in Grid.Keys)
+    {     
+        // Use an enumerator to speed up the process 2x
+        var enumerator = Grid.GetEnumerator();
+        
+        while (enumerator.MoveNext())
         {
-            Grid[pos].Walkable = IsWalkable(pos);
+            enumerator.Current.Value.Walkable = IsWalkable(enumerator.Current.Key);
         }
     }
 
