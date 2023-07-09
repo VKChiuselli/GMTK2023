@@ -404,7 +404,6 @@ MonoBehaviour:
   MaxMana: 3
   Mana: 3
   CurrentAbility: 0
-  ManaImage: {fileID: 0}
   IgnoreWalls: 0
   NeedLineOfSight: 0
   FireBallObj: {fileID: 2128965159440450574, guid: f4a6a3339bb16f740aee08688c78c12b, type: 3}
@@ -2800,6 +2799,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3482535606232637948}
+  - component: {fileID: 5451841007429440413}
   m_Layer: 5
   m_Name: ManaSprite
   m_TagString: Untagged
@@ -2807,6 +2807,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5451841007429440413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5451841007429440412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ffd2afe82adf0543ac075e326128694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listOfImages:
+  - {fileID: 972983179}
+  - {fileID: 1534381873}
+  - {fileID: 1438782891}
+  - {fileID: 1745812879}
+  currentMana: 0
 --- !u!224 &5487459908684706434
 RectTransform:
   m_ObjectHideFlags: 0

@@ -7,10 +7,10 @@ using UnityEngine;
 public class Player : Unit
 {
     public int MaxMana = 3;
-    [HideInInspector]
+ //   [HideInInspector]
     public int Mana = 5;
     public Abilities CurrentAbility = Abilities.Walk;
-    public RectTransform ManaImage;
+    //public RectTransform ManaImage;
     public bool IgnoreWalls = false;
     public bool NeedLineOfSight = false;
 
@@ -40,7 +40,7 @@ public class Player : Unit
     protected override void Update()
     {
         base.Update();
-        ManaImage.sizeDelta = new Vector2(Mana * 100, 100);
+     //   ManaImage.sizeDelta = new Vector2(Mana * 100, 100);
     }
 
     public override bool Move(Vector2Int target)
