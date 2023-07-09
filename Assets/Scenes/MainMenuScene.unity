@@ -516,7 +516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startTheme: {fileID: 8300000, guid: 76a868aef8da8514fb41dff9c8950b34, type: 3}
   startGameEffect: {fileID: 8300000, guid: 29361e5679a5d044399a2c033bcf20de, type: 3}
-  gameLoopBackground: {fileID: 8300000, guid: cac1d5842b5305349954f53bdcc6975f, type: 3}
+  gameLoopBackground: {fileID: 8300000, guid: 98ed8e413184ca28f9bc964021cddfc3, type: 3}
 --- !u!4 &185468680
 Transform:
   m_ObjectHideFlags: 0
