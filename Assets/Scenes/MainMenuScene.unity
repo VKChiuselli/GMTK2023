@@ -160,7 +160,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 106.00003, y: -169.65001}
+  m_AnchoredPosition: {x: 220.00003, y: -56.550003}
   m_SizeDelta: {x: 135.3, y: 37.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1861039
@@ -1838,7 +1838,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2085,8 +2085,8 @@ RectTransform:
   m_Father: {fileID: 1145769138}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2161,8 +2161,8 @@ RectTransform:
   m_Father: {fileID: 1579072984}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2880,7 +2880,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 106.00003, y: -94.25}
+  m_AnchoredPosition: {x: 355.30002, y: -18.85}
   m_SizeDelta: {x: 135.3, y: 37.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1258898074
@@ -3182,7 +3182,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 106, y: -18.849976}
+  m_AnchoredPosition: {x: 84.70002, y: -18.85}
   m_SizeDelta: {x: 135.3, y: 37.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1334518291
@@ -3528,6 +3528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1460636397}
   - component: {fileID: 1460636398}
+  - component: {fileID: 1460636399}
   m_Layer: 5
   m_Name: Options
   m_TagString: Untagged
@@ -3584,6 +3585,22 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &1460636399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460636396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3df7a285d0610ac4aeb4266eb88d6d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SFXMixer: {fileID: 58320961872652811, guid: c5a912a52463c25c1bf76e92dabab861, type: 2}
+  _musicMixer: {fileID: 3277966348975282133, guid: c5a912a52463c25c1bf76e92dabab861, type: 2}
+  _masterMixer: {fileID: 24300002, guid: c5a912a52463c25c1bf76e92dabab861, type: 2}
+  _adjustMaxMasterVolumeDB: 0
 --- !u!1 &1579072983
 GameObject:
   m_ObjectHideFlags: 0
@@ -3632,7 +3649,7 @@ GameObject:
   - component: {fileID: 1595190795}
   - component: {fileID: 1595190796}
   m_Layer: 5
-  m_Name: Slider (1)
+  m_Name: MusicSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3658,7 +3675,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 106.00003, y: -131.95001}
+  m_AnchoredPosition: {x: 84.70002, y: -56.550003}
   m_SizeDelta: {x: 135.3, y: 37.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1595190796
@@ -3708,10 +3725,22 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1460636399}
+        m_TargetAssemblyTypeName: OptionSettings, Assembly-CSharp
+        m_MethodName: SetMusicVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1615972015
 GameObject:
   m_ObjectHideFlags: 0
@@ -4208,7 +4237,7 @@ GameObject:
   - component: {fileID: 1791616149}
   - component: {fileID: 1791616150}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: SFXSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4234,7 +4263,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 106.00003, y: -56.550003}
+  m_AnchoredPosition: {x: 220.00003, y: -18.85}
   m_SizeDelta: {x: 135.3, y: 37.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1791616150
@@ -4284,10 +4313,22 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1460636399}
+        m_TargetAssemblyTypeName: OptionSettings, Assembly-CSharp
+        m_MethodName: SetSFXVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1822871385
 GameObject:
   m_ObjectHideFlags: 0
@@ -4818,7 +4859,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

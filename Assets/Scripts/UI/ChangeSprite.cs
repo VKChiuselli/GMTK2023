@@ -32,7 +32,7 @@ public class ChangeSprite : MonoBehaviour
 
     public void RemoveMana(int actualMana)
     {
-        currentMana =   actualMana;
+        currentMana = actualMana;
 
         if (currentMana >= 3)
         {
@@ -65,10 +65,6 @@ public class ChangeSprite : MonoBehaviour
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(false);
             transform.GetChild(3).gameObject.SetActive(true);
-        }
-        else
-        {
-            Debug.Log("Too much mana spent");
         }
     }
 
