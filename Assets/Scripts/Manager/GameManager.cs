@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -167,8 +168,16 @@ public class GameManager : MonoBehaviour
 
     void PlayerControls()
     {
+        
         if (!_isMovingUnits)
         {
+            if (Keyboard.current.spaceKey.isPressed)
+            {
+                _isNextTurn = true;
+                PlayerUnit.Mana = 0;
+                NextTurn();
+                return;
+            }
             bool click = inputActions.Player.Click.ReadValue<float>() > 0;
             Vector2 position = inputActions.Player.MouseLocation.ReadValue<Vector2>();
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(position);

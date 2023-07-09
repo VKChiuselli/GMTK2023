@@ -1978,7 +1978,7 @@ PrefabInstance:
       objectReference: {fileID: 499174419}
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.data[0]
@@ -2009,6 +2009,10 @@ PrefabInstance:
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.data[6]
       value: Now try not to get seen.
+      objectReference: {fileID: 0}
+    - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
+      propertyPath: sentecesTutorial.Array.data[7]
+      value: Also, press space to skip a turn!
       objectReference: {fileID: 0}
     - target: {fileID: 878348127360048805, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: m_AnchoredPosition.y
