@@ -8,27 +8,27 @@ public class AudioManager : MonoBehaviour
     public AudioClip startGameEffect; // Sound effect to play
     public AudioClip gameLoopBackground; // Sound effect to play
 
+    [SerializeField]
+    private AudioSource _musicSource;
+
     private void Awake()
     {
 
-        int numGameSessions = FindObjectsOfType<AudioManager>().Length;
-        if (numGameSessions > 1)
+        DontDestroyOnLoad(gameObject);
+        var audioManagers = FindObjectsOfType<AudioManager>();
+        if (audioManagers.Length > 1)
         {
             Destroy(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
         }
 
         if (PlayerPrefs.HasKey("GameVolume"))
         {
             float volumeSaved = PlayerPrefs.GetFloat("GameVolume");
-            GetComponent<AudioSource>().volume = volumeSaved;
+            //GetComponent<AudioSource>().volume = volumeSaved;
         }
         else
         {
-            GetComponent<AudioSource>().volume = 0.01f;
+            //GetComponent<AudioSource>().volume = 0.01f;
         }
         // Set initial slider value to match audio source volume
     }
@@ -51,6 +51,9 @@ public class AudioManager : MonoBehaviour
        gameObject.GetComponent<AudioSource>().Stop();
     }
 
-
+    public void LowerGameplayMusicVolume()
+    {
+        _musicSource.volume = 0.3f;
+    }
 
 }

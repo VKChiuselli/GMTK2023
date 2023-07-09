@@ -69,10 +69,7 @@ public class IntroCutSceneManager : MonoBehaviour
             }
             else
             {
-                if (audiosource != null)
-                {
-                    audiosource.volume = 0.3f;
-                }
+                
                 gameObject.SetActive(false);
             }
              

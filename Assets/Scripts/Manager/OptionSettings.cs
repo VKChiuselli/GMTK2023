@@ -34,6 +34,7 @@ public class OptionSettings : MonoBehaviour
     public void SetMusicVolume(float sliderValue)
     {
         float desiredVolume = Mathf.Log10(sliderValue) * 20f;
+        desiredVolume = Mathf.Clamp(desiredVolume, -80f, 0f);
         _SFXMixer.audioMixer.SetFloat("MusicVolume", desiredVolume);
     }
 
@@ -42,7 +43,9 @@ public class OptionSettings : MonoBehaviour
     /// </summary>
     public void SetMasterVolume(float sliderValue)
     {
+
         float desiredVolume = Mathf.Log10(sliderValue) * 20f + _adjustMaxMasterVolumeDB;
+        desiredVolume = Mathf.Clamp(desiredVolume, -80f, 0f);
         _SFXMixer.audioMixer.SetFloat("MasterVolume", desiredVolume);   
     }
 
