@@ -25,10 +25,11 @@ public class TutorialManager : MonoBehaviour
 
     private void AddSentences()
     {
-        sentecesTutorial.Add("Hurry up! This is the first day of dungeoning for my son, I want to help him without getting notice from him");
-        sentecesTutorial.Add( "So you have to do this");
-        sentecesTutorial.Add( "And than this");
-        sentecesTutorial.Add( "At the end that one");
+    
+        sentecesTutorial.Add("While helping Dunkus on his adventure, you cannot let him see you, so make sure you end your turn in a place he can't reach you or see you.");
+        sentecesTutorial.Add("Now as a powerful mage, you don't need to run to the next room, it's definitely not because of your old aching bones but because you're powerful!");
+        sentecesTutorial.Add("Simply teleport to the next room.");
+        sentecesTutorial.Add("Watch out my mana!"); 
     }
 
     void Update()
