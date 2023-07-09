@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boar : Unit
+public class Boar : Enemies
 {
     FunBarManager funBarManager;
 
@@ -15,7 +15,8 @@ public class Boar : Unit
     {
         if (whoKilled.GetType() == typeof(Hero))
         {
-            funBarManager.ChangeFunBarCounter(15);
+            if (funBarManager)
+                funBarManager.ChangeFunBarCounter(15);
         }
         else
         {

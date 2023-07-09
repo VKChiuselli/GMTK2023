@@ -182,6 +182,7 @@ public class Player : Unit
                 Utility.Distance(transform.position, target) <= MaxMovement
                 )
             {
+                PlayTeleportSFX();
                 StartCoroutine(TeleportCoroutine(target));
                 _isMoving = true;
             }
@@ -211,6 +212,12 @@ public class Player : Unit
                 !GameManager.Inst.LineOfSightBlocked(Utility.Round(transform.position), target)
                 )
             {
+                Unit unit = GetUnitAtPoint(target);
+                if (unit != null)
+                {
+                    Hit(unit);
+                }
+                PlayFireSFX();
                 StartCoroutine(FireballCoroutine(target));
                 _isMoving = true;
             }
@@ -239,6 +246,7 @@ public class Player : Unit
                 !GameManager.Inst.LineOfSightBlocked(Utility.Round(transform.position), target)
                 )
             {
+                PlayWindSFX();
                 StartCoroutine(WindCoroutine(target));
                 _isMoving = true;
             }
@@ -310,5 +318,20 @@ public class Player : Unit
                 Description.text = "Wind Gust [1 mana]: Blows wind on a targeted tile";
                 break;
         }
+    }
+
+    public void PlayFireSFX()
+    {
+        GetComponent<SFX>().PlayFirstEffect();
+    }
+
+    public void PlayWindSFX()
+    {
+        GetComponent<SFX>().PlaySecondEffect();
+    }
+
+    public void PlayTeleportSFX()
+    {
+        GetComponent<SFX>().PlayThirdEffect();
     }
 }

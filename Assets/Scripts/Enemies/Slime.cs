@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slime : Unit
+public class Slime : Enemies
 {
 
     FunBarManager funBarManager;
@@ -16,7 +16,8 @@ public class Slime : Unit
     {
         if (whoKilled.GetType() == typeof(Hero))
         {
-            funBarManager.ChangeFunBarCounter(15);
+            if (funBarManager)
+                funBarManager.ChangeFunBarCounter(15);
         }
         else
         {

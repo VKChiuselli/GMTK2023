@@ -713,7 +713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4589681157872802763, guid: 2ebfac48722196f47b2816fd76584e3d, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4589681157872802763, guid: 2ebfac48722196f47b2816fd76584e3d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -826,7 +826,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!111 &401650165
 Animation:
@@ -2214,7 +2214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9107689660041389246, guid: c015598930eb107418f9109249b6dd74, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9107689660041389246, guid: c015598930eb107418f9109249b6dd74, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5871,7 +5871,7 @@ PrefabInstance:
       objectReference: {fileID: 166830270}
     - target: {fileID: 8262301499141273188, guid: a2b429b4faafd4a43aa9cf84844f596c, type: 3}
       propertyPath: Enemies.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8262301499141273188, guid: a2b429b4faafd4a43aa9cf84844f596c, type: 3}
       propertyPath: Heroes.Array.data[0]
@@ -5883,6 +5883,10 @@ PrefabInstance:
       objectReference: {fileID: 1728792170}
     - target: {fileID: 8262301499141273188, guid: a2b429b4faafd4a43aa9cf84844f596c, type: 3}
       propertyPath: Enemies.Array.data[1]
+      value: 
+      objectReference: {fileID: 159682894}
+    - target: {fileID: 8262301499141273188, guid: a2b429b4faafd4a43aa9cf84844f596c, type: 3}
+      propertyPath: Enemies.Array.data[2]
       value: 
       objectReference: {fileID: 159682894}
     - target: {fileID: 8262301499141273189, guid: a2b429b4faafd4a43aa9cf84844f596c, type: 3}

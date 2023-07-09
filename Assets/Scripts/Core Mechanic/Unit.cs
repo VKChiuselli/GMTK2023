@@ -36,9 +36,10 @@ public class Unit : MonoBehaviour
         
     }
 
-    public void Hit()
+    public virtual void Hit(Unit other)
     {
         _spriteRenderer.material = HitMat;
+        Death(other);
         CancelInvoke(nameof(ResetMaterial));
         Invoke(nameof(ResetMaterial), 0.2f);
     }
@@ -46,6 +47,7 @@ public class Unit : MonoBehaviour
     private void ResetMaterial()
     {
         _spriteRenderer.material = _defaultMat;
+        Destroy(gameObject);
     }
 
     public virtual bool Move(Vector2Int target)
@@ -105,31 +107,6 @@ public class Unit : MonoBehaviour
         }
         return canMoveToTarget;
     }
-
-    public virtual void Interact(Vector2 target)
-    {
-        if (!_isMoving)
-        {
-            Utility.Round(target);
-            // todo limit with layers
-            List<Collider2D> potentials = new List<Collider2D>(Physics2D.OverlapBoxAll(target, Vector2.one * 0.8f, 0f)); // the *0.8f is to avoid catching nearby objects
-            if (potentials.Count > 0)
-            {
-                foreach (var potentialInteractible in potentials)
-                {
-                    if (potentialInteractible.TryGetComponent(out InteractableEntity interactible))
-                    {
-                        if (interactible)
-                        {
-                            interactible.InteractWith(this);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
 
     // Moves the sprite child instead
     public IEnumerator MoveCoroutine(List<Vector2Int> path)
@@ -217,13 +194,165 @@ public class Unit : MonoBehaviour
     public virtual void HoverInfo()
     { }
 
-    public virtual GameObject Target()
+    public virtual void Attack(Unit other)
     {
-        return null;
+        StartCoroutine(AttackCoroutine(other.transform.position));
+        other.Hit(this);
     }
 
-    public virtual void DrawPath()
+    protected IEnumerator AttackCoroutine(Vector2 target)
     {
+        Vector2 difference = target - (Vector2)_spriteObject.position;
+        while (difference.sqrMagnitude > Vector2.kEpsilon)
+        {
+            _spriteObject.position = Vector3.MoveTowards(_spriteObject.position, target, Time.deltaTime * GameManager.Inst.MovementSpeed);
+            yield return null;
+            difference = target - (Vector2)_spriteObject.position;
+        }
+
+        target = transform.position;
+        difference = target - (Vector2)_spriteObject.position;
+        while (difference.sqrMagnitude > Vector2.kEpsilon)
+        {
+            _spriteObject.position = Vector3.MoveTowards(_spriteObject.position, target, Time.deltaTime * GameManager.Inst.MovementSpeed);
+            yield return null;
+            difference = target - (Vector2)_spriteObject.position;
+        }
+
+        _spriteObject.position = transform.position;
+    }
+
+
+    protected bool TargetClosest<T>(List<GameObject> interactable)
+    {
+        GameObject closest = GetClosestObject(interactable.FindAll(x => x.GetComponent<T>() != null));
+        if (closest != null)
+        {
+            if (Utility.Distance(transform.position, closest.transform.position) <= 1)
+            {
+                T component = closest.GetComponent<T>();
+                InteractableEntity item = component as InteractableEntity;
+                if (item != null)
+                {
+                    item.InteractWith(this);
+                }
+                Unit u = component as Unit;
+                if (u != null && u!= this)
+                {
+                    Attack(u);
+                }
+            }
+            else
+                MoveTowards(Utility.Round(closest.transform.position));
+            return true;
+        }
+        return false;
+    }
+
+    public List<GameObject> GetObjectsInRange(bool showRange, int maxDist, bool needVisibility)
+    {
+        List<GameObject> obj = new List<GameObject>();
+        Vector2Int startPos = Utility.Round(transform.position);
+
+
+        GameManager.Inst.UpdateGrid();
+        Dictionary<Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
+
+        GameManager.Tile start = Grid[startPos];
+        start.Walkable = GameManager.Tile.TileStatus.Walkable;
+
+
+        List<GameManager.Tile> queue = new List<GameManager.Tile>();
+        HashSet<GameManager.Tile> visited = new HashSet<GameManager.Tile>();
+        queue.Add(start);
+
+        // Fail safe for the loop at the end
+        while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4 + 6)
+        {
+            GameManager.Tile cur = queue[0];
+            queue.RemoveAt(0);
+            visited.Add(cur);
+
+            // 2 in one function... kind of bad to do...
+            if (showRange)
+                GameManager.Inst.UpdateHeroSight(cur.Position);
+            else
+                obj.AddRange(GetObjectsAtPosition(cur.Position));
+
+            List<GameManager.Tile> neighbours = GameManager.Inst.GetNeighbours(cur);
+            foreach (GameManager.Tile neighbour in neighbours)
+            {
+                // You can see the walls at least
+                if (neighbour.IsVisible != GameManager.Tile.Visibility.Visible && needVisibility) continue;
+                if (visited.Contains(neighbour)) continue;
+                if (GameManager.Inst.GetDistance(start, cur) >= maxDist) continue;
+                if (queue.Contains(neighbour)) continue;
+                // Check line of sight
+                if (GameManager.Inst.LineOfSightBlocked(startPos, neighbour.Position)) continue;
+
+                neighbour.Parent = cur;
+                queue.Add(neighbour);
+            }
+        }
+        if (queue.Count > maxDist * maxDist)
+            Debug.LogError("BFS Search reached maxed. Max dist is " + maxDist.ToString());
+
+        return obj;
+    }
+
+    protected List<GameObject> GetObjectsAtPosition(Vector2Int position)
+    {
+        List<GameObject> objs = new();
+        var collisions = Physics2D.OverlapPointAll(position);
+        foreach (var collision in collisions)
+        {
+            if (collision != null)
+                objs.Add(collision.gameObject);
+        }
+
+        return objs;
+    }
+
+    protected Unit GetUnitAtPoint(Vector2Int position)
+    {
+        Unit unit = null;
+        var collisions = Physics2D.OverlapPointAll(position);
+        foreach (var collision in collisions)
+        {
+
+            if (collision != null)
+            {
+                var u = collision.gameObject.GetComponent<Unit>();
+                if (u != null)
+                {
+                    unit = u;
+                    break;
+                }
+            }
+                
+        }
+
+        return unit;
+    }
+
+    protected GameObject GetClosestObject(List<GameObject> objs)
+    {
+        if (objs.Count <= 0)
+            return null;
+        int dist = Utility.Distance(transform.position, objs[0].transform.position);
+        GameObject closest = objs[0];
+
+        foreach (var obj in objs)
+        {
+            int d = Utility.Distance(transform.position, obj.transform.position);
+            if (d < dist)
+            {
+                dist = d;
+                closest = obj;
+            }
+        }
+
+        return closest;
 
     }
 }
