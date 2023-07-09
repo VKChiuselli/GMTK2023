@@ -33,7 +33,7 @@ public class Hero : Unit
 
     public override void AILogic()
     {
-        List<PointOfInterest> objs = GetObjectsInRange(false, true);
+        /*List<PointOfInterest> objs = GetObjectsInRange(false, true);
 
         if (objs.Count > 0)
         {
@@ -49,32 +49,39 @@ public class Hero : Unit
                 }
             }
         }
-        /*// Find closeset chest
-        GameObject closest = GetClosestObject(objs.FindAll(x => x.GetComponent<Chest>() != null));
+        */
+        List<GameObject> objs = GetObjectsInRange(false);
+        // Find closeset chest
+        if (TargetClosest<Chest>(objs)) return;
+        // Find keys
+        if (TargetClosest<Key>(objs)) return;
+        // Find Doors
+        if (TargetClosest<Door>(objs)) return;
+        // Find enemies
+
+        // Do something???
+        if (TargetClosest<Trap>(objs)) return;
+    }
+
+    private bool TargetClosest<T>(List<GameObject> interactable)
+    {
+        GameObject closest = GetClosestObject(interactable.FindAll(x => x.GetComponent<T>() != null));
         if (closest != null)
         {
             if (Utility.Distance(transform.position, closest.transform.position) <= 1)
             {
-                Chest chest = closest.GetComponent<Chest>();
-                if (chest !=null)
+                T component = closest.GetComponent<T>();
+                InteractableEntity item = component as InteractableEntity;
+                if (item != null)
                 {
-                    chest.InteractWith(this);
-                    // Interact with chest
+                    item.InteractWith(this);
                 }
             }
             else
                 MoveTowards(Utility.Round(closest.transform.position));
-            return;
+            return true;
         }
-
-        // Find keys
-
-        // Find Doors
-
-        // Find enemies
-
-        */
-        // Do something???
+        return false;
     }
 
     public List<PointOfInterest> GetObjectsInRange(bool showRange, bool diffthantheotherone)

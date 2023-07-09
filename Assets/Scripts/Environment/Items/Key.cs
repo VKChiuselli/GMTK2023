@@ -22,6 +22,7 @@ public class Key : InteractableEntity
         Inventory.Instance.AddKey();
         //OpenDoor();
         PlayPickKeySFX();
+        Destroy(gameObject, 0.5f);
     }
 
     public void OpenDoor()

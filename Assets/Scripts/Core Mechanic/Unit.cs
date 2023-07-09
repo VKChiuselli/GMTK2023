@@ -23,11 +23,11 @@ public class Unit : MonoBehaviour
         _spriteObject = transform.GetChild(0);
         _spriteRenderer = _spriteObject.GetComponent<SpriteRenderer>();
         _defaultMat = _spriteRenderer.material;
-        HitMat = GameManager.Inst.HitMat;
     }
     
     protected virtual void Start()
     {
+        HitMat = GameManager.Inst.HitMat;
     }
 
     // Update is called once per frame

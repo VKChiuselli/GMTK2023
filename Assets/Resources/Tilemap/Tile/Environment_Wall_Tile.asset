@@ -18,7 +18,7 @@ MonoBehaviour:
   m_TilingRules:
   - m_Id: 0
     m_Sprites:
-    - {fileID: 21300000, guid: 94b8f3499ee48ec43924889c3610264b, type: 3}
+    - {fileID: 21300000, guid: 1e5483f1d99d3ea4eba7ca25383fc088, type: 3}
     m_GameObject: {fileID: 1349877171617183915, guid: a432ae01247eafa4290bd0a4f8e9f134, type: 3}
     m_MinAnimationSpeed: 1
     m_MaxAnimationSpeed: 1
@@ -28,13 +28,13 @@ MonoBehaviour:
     m_RandomTransform: 0
     m_Neighbors: 010000000100000002000000
     m_NeighborPositions:
-    - {x: 0, y: 1, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: 1, y: 1, z: 0}
+    - {x: 0, y: -1, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -1, y: -1, z: 0}
     m_RuleTransform: 1
   - m_Id: 1
     m_Sprites:
-    - {fileID: 21300000, guid: 9de074ae6c112ea4cba2e56a30fd6b3f, type: 3}
+    - {fileID: 21300000, guid: 6f2b513b3cab7c741aa0fb54945a9e98, type: 3}
     m_GameObject: {fileID: 1349877171617183915, guid: a432ae01247eafa4290bd0a4f8e9f134, type: 3}
     m_MinAnimationSpeed: 1
     m_MaxAnimationSpeed: 1
@@ -42,16 +42,16 @@ MonoBehaviour:
     m_Output: 0
     m_ColliderType: 1
     m_RandomTransform: 0
-    m_Neighbors: 01000000010000000200000002000000
+    m_Neighbors: 01000000020000000100000002000000
     m_NeighborPositions:
     - {x: 0, y: 1, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: -1, y: 0, z: 0}
     - {x: 0, y: -1, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: 1, y: 0, z: 0}
     m_RuleTransform: 1
   - m_Id: 2
     m_Sprites:
-    - {fileID: 21300000, guid: 9f060cbdf8e0c79469c478b75e48cebd, type: 3}
+    - {fileID: 21300000, guid: ed007475338a62449932b96cd0dcc81a, type: 3}
     m_GameObject: {fileID: 1349877171617183915, guid: a432ae01247eafa4290bd0a4f8e9f134, type: 3}
     m_MinAnimationSpeed: 1
     m_MaxAnimationSpeed: 1
@@ -59,11 +59,11 @@ MonoBehaviour:
     m_Output: 0
     m_ColliderType: 1
     m_RandomTransform: 0
-    m_Neighbors: 020000000100000001000000
+    m_Neighbors: 010000000100000002000000
     m_NeighborPositions:
-    - {x: 0, y: 1, z: 0}
     - {x: -1, y: 0, z: 0}
     - {x: 1, y: 0, z: 0}
+    - {x: 0, y: -1, z: 0}
     m_RuleTransform: 1
   - m_Id: 3
     m_Sprites:

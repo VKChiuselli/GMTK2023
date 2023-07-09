@@ -31,11 +31,13 @@ public class Door : InteractableEntity
     public void OpenDoor()
     {
         isOpen = true;
+        PlayOpenDoorSFX();
     }
 
     public void CloseDoor()
     {
         isOpen = false;
+        PlayLockedDoorSFX();
     }
 
     public void PlayOpenDoorSFX()
@@ -53,7 +55,8 @@ public class Door : InteractableEntity
     {
         if (Inventory.Instance.TryUseKey())
         {
-            ChangeFloor();
+            PlayOpenDoorSFX();
+            Invoke(nameof(ChangeFloor), 1);
         }
         else
         {

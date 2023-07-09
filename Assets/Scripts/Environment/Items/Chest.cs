@@ -76,7 +76,7 @@ public class Chest : InteractableEntity
                 {
                     funBarManager.ChangeFunBarCounter(-10);
                 }
-                Destroy(gameObject);
+                Destroy(gameObject, 1f);
             }
         }
     }
@@ -96,6 +96,7 @@ public class Chest : InteractableEntity
 
     public void OpenChest()
     {
+        PlayOpenChestSFX();
         isOpen = true;
     }
 

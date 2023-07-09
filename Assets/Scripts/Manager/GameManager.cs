@@ -431,7 +431,7 @@ public class GameManager : MonoBehaviour
             if (cur.Equals(end))
             {
                 // If you can't walk to the end, walk one tile before
-                while (isEndWalkable.HasFlag(Tile.TileStatus.HasUnit) && end != null && end != start)
+                while (isEndWalkable.HasFlag(Tile.TileStatus.Blocked) && end != null && end != start)
                 {
                     end = end.Parent;
                     isEndWalkable = end.Walkable;
