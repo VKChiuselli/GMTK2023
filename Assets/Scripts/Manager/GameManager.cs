@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         }
         if (Keyboard.current.escapeKey.isPressed)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
 
 
