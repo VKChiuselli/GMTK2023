@@ -14,9 +14,12 @@ public class ChangeScene : MonoBehaviour
 
     public void GoToScene(string sceneName)
     {
-        audioManager.StopMusic();
-        audioManager.PlayGameLoopBackground();
-        audioManager.PlayStartGameEffect();
+        if (audioManager != null)
+        {
+            audioManager.StopMusic();
+            audioManager.PlayGameLoopBackground();
+            audioManager.PlayStartGameEffect();
+        }
         SceneManager.LoadScene(sceneName);
     }
 

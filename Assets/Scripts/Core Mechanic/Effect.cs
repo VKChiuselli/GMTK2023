@@ -9,6 +9,8 @@ public class Effect : MonoBehaviour
 
     public void Start()
     {
+        if (GetComponent<SFX>())
+            GetComponent<SFX>().PlayFirstEffect();
         Invoke(nameof(DestroyObj), Duration);
     }
 

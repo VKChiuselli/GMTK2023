@@ -33,7 +33,16 @@ public class Hero : Unit
 
     public override void AILogic()
     {
+        var prevPosition = transform.position;
         List<GameObject> objs = GetObjectsInRange(false, 1000, true);
+        // if they can move to you, game over
+        if (TargetClosest<Player>(objs))
+        {
+            Instantiate(GameManager.Inst.SurprisedEffect, prevPosition + Vector3.up, Quaternion.identity);
+            GameManager.Inst.Invoke(nameof(GameManager.Inst.GameOverHeroSawParent), 0.8f);
+            return;
+        }
+
         if (TargetClosest<Trap>(objs)) return;
         // Find closeset chest
         if (TargetClosest<Chest>(objs)) return;
@@ -44,6 +53,12 @@ public class Hero : Unit
         // Find enemies
         if (TargetClosest<Enemies>(objs)) return;
 
+    }
+
+    public override void Death(Unit causeOfDeath)
+    {
+        base.Death(causeOfDeath);
+        GameManager.Inst.GameOverHeroDeath();
     }
 
 
