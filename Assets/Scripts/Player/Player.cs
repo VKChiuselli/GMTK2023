@@ -62,7 +62,7 @@ public class Player : Unit
             case Abilities.FireBall:
                 didMove = Fireball(target);
                 if (didMove)
-                    Mana -= 1;
+                    Mana -= 3;
                 break;
             case Abilities.Wind:
                 didMove = WindGust(target);
@@ -100,7 +100,7 @@ public class Player : Unit
             IgnoreWalls = true;
             NeedLineOfSight = true;
             CurrentAbility = Abilities.FireBall;
-            MaxMovement = 5;
+            MaxMovement = 4;
             SetDescription();
         }
     }
@@ -170,7 +170,7 @@ public class Player : Unit
 
     public void RegenerateMana()
     {
-        Mana = MaxMana;
+        Mana += MaxMana;
     }
 
     private bool Teleport(Vector2Int target)
