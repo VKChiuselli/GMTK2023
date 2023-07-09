@@ -16,6 +16,7 @@ public class IntroCutSceneManager : MonoBehaviour
         transform.GetChild(1).gameObject.SetActive(false);
         transform.GetChild(2).gameObject.SetActive(false);
         transform.GetChild(3).gameObject.SetActive(false);
+        transform.GetChild(4).gameObject.SetActive(false);
     }
     void Update()
     {
@@ -31,6 +32,7 @@ public class IntroCutSceneManager : MonoBehaviour
                 transform.GetChild(1).gameObject.SetActive(false);
                 transform.GetChild(2).gameObject.SetActive(false);
                 transform.GetChild(3).gameObject.SetActive(false);
+                transform.GetChild(4).gameObject.SetActive(false);
             }
             else if (currentIndex == 1)
             {
@@ -38,6 +40,7 @@ public class IntroCutSceneManager : MonoBehaviour
                transform.GetChild(1).gameObject.SetActive(true);
                transform.GetChild(2).gameObject.SetActive(false);
                transform.GetChild(3).gameObject.SetActive(false);
+               transform.GetChild(4).gameObject.SetActive(false);
             }
             else if (currentIndex == 2)
             {
@@ -45,6 +48,7 @@ public class IntroCutSceneManager : MonoBehaviour
               transform.GetChild(1).gameObject.SetActive(false);
               transform.GetChild(2).gameObject.SetActive(true);
               transform.GetChild(3).gameObject.SetActive(false);
+              transform.GetChild(4).gameObject.SetActive(false);
             }
             else if (currentIndex == 3)
             {
@@ -52,6 +56,15 @@ public class IntroCutSceneManager : MonoBehaviour
                transform.GetChild(1).gameObject.SetActive(false);
                transform.GetChild(2).gameObject.SetActive(false);
                transform.GetChild(3).gameObject.SetActive(true);
+               transform.GetChild(4).gameObject.SetActive(false);
+            }
+            else if (currentIndex == 4)
+            {
+               transform.GetChild(0).gameObject.SetActive(false);
+               transform.GetChild(1).gameObject.SetActive(false);
+               transform.GetChild(2).gameObject.SetActive(false);
+               transform.GetChild(3).gameObject.SetActive(false);
+               transform.GetChild(4).gameObject.SetActive(true);
             }
             else
             {

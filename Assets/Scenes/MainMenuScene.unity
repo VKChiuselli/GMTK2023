@@ -5122,10 +5122,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: IntroCutSceneManager
       objectReference: {fileID: 0}
-    - target: {fileID: 29496345068860268, guid: a5cc88cea33038245aa2ad8b656817c7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 29496345068860269, guid: a5cc88cea33038245aa2ad8b656817c7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5209,14 +5205,6 @@ PrefabInstance:
     - target: {fileID: 29496345068860269, guid: a5cc88cea33038245aa2ad8b656817c7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 29496346361298958, guid: a5cc88cea33038245aa2ad8b656817c7, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 521.7974
-      objectReference: {fileID: 0}
-    - target: {fileID: 29496346361298958, guid: a5cc88cea33038245aa2ad8b656817c7, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -218.88014
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5cc88cea33038245aa2ad8b656817c7, type: 3}
