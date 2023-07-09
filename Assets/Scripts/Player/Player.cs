@@ -174,7 +174,7 @@ public class Player : Unit
 
     public void RegenerateMana()
     {
-        Mana += MaxMana;
+        Mana = MaxMana;
     }
 
     private bool Teleport(Vector2Int target)
@@ -313,7 +313,7 @@ public class Player : Unit
                 Description.text = "Move [x mana]: x = Number of spaces moved";
                 break;
             case Abilities.FireBall:
-                Description.text = "FireBall [1 mana]: Lights a Tile on fire";
+                Description.text = "FireBall [3 mana]: Lights a Tile on fire";
                 break;
             case Abilities.Teleport:
                 Description.text = "Teleport [2 mana]: Teleports self to a tile";

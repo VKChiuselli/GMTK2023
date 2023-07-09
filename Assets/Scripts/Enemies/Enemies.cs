@@ -8,7 +8,7 @@ public class Enemies : Unit
     public override void AILogic()
     {
         var prePosition = transform.position;
-        List<GameObject> objs = GetObjectsInRange(false, MaxMovement, false);
+        List<GameObject> objs = GetObjectsInRange(false, MaxMovement * 2, false);
         if (TargetClosest<Hero>(objs))
         {
             Instantiate(GameManager.Inst.SurprisedEffect, prePosition + Vector3.up, Quaternion.identity);

@@ -81,6 +81,12 @@ public class Hero : Unit
         GameManager.Inst.GameOverHeroDeath();
     }
 
+    public override void Hit(Unit other)
+    {
+        base.Hit(other);
+        PlayTakingDamageSFX();
+    }
+
 
     public void PlayArrowSFX()
     {

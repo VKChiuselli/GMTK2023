@@ -272,7 +272,7 @@ public class GameManager : MonoBehaviour
                 _isMovingUnits = false;
                 foreach (var unit in units)
                 {
-                    if (unit._isMoving)
+                    if (unit != null && unit._isMoving)
                     {
                         _isMovingUnits = true;
                     }
