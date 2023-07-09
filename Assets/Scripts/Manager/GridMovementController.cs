@@ -18,7 +18,7 @@ public class GridMovementController : MonoBehaviour
         MovementMap.ClearAllTiles();
     }
 
-    public void DrawWalkablePath(Vector2Int startPos, int maxDist, bool ignoreWalls)
+    public void DrawWalkablePath(Vector2Int startPos, int maxDist, bool ignoreWalls, bool needLineOfSite)
     {
         Dictionary<Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
         GameManager.Inst.UpdateGrid();
@@ -53,6 +53,8 @@ public class GridMovementController : MonoBehaviour
 
                 // Show ranges that you can walk on but contains a unit on it
                 if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit)) continue;
+
+                if (needLineOfSite && GameManager.Inst.LineOfSightBlocked(startPos, neighbour.Position)) continue;
 
                 neighbour.Parent = cur;
                 queue.Add(neighbour);

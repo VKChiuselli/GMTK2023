@@ -28,6 +28,7 @@ public class Hero : Unit
     public override void HoverInfo()
     {
         GetObjectsInRange(true);
+        base.HoverInfo();
     }
 
     public override void AILogic()

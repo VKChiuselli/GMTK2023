@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     private bool _isMovingUnits = false;
     private bool _isNextTurn = false;
 
+    public Material HitMat;
+
     public enum TurnId
     {
         Player = 0,
@@ -108,9 +110,12 @@ public class GameManager : MonoBehaviour
         Vector2 mousePosition = inputActions.Player.MouseLocation.ReadValue<Vector2>();
         Vector2Int cursorPosition = Utility.Round(Camera.main.ScreenToWorldPoint(mousePosition));
         _gridController.ClearGrid();
-        _gridController.DrawWalkablePath(Utility.Round(PlayerUnit.transform.position), PlayerUnit.MaxMovement, PlayerUnit.IgnoreWalls);
-        List<Vector2Int> path = FindPath(PlayerUnit.transform.position, cursorPosition, PlayerUnit.MaxMovement);
-        _gridController.DrawMovementPath(path, Utility.Round(PlayerUnit.transform.position));
+        _gridController.DrawWalkablePath(Utility.Round(PlayerUnit.transform.position), PlayerUnit.MaxMovement, PlayerUnit.IgnoreWalls, PlayerUnit.NeedLineOfSight);
+        if (PlayerUnit.CurrentAbility == Player.Abilities.Walk)
+        {
+            List<Vector2Int> path = FindPath(PlayerUnit.transform.position, cursorPosition, PlayerUnit.MaxMovement);
+            _gridController.DrawMovementPath(path, Utility.Round(PlayerUnit.transform.position));
+        }
     }
 
     void CursorController()
@@ -134,8 +139,7 @@ public class GameManager : MonoBehaviour
                 AIControls(Enemies);
                 break;
             case TurnId.Traps:
-                _isNextTurn = true;
-                NextTurn();
+                TrapUpdates();
                 break;
             default:
                 break;
@@ -186,6 +190,33 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Units are null");
     }
 
+    void TrapUpdates()
+    {
+        List<Trap> traps = new List<Trap>(FindObjectsOfType<Trap>());
+
+        StartCoroutine(TrapCoroutine(traps));
+    }
+
+    IEnumerator TrapCoroutine(List<Trap> traps)
+    {
+        if (!_isMovingUnits)
+        {
+            _isMovingUnits = true;
+            foreach (var trap in traps)
+            {
+                trap.Duration--;
+                if (trap.Duration <= 0)
+                    Destroy(trap.gameObject);
+                yield return new WaitForSeconds(0.05f);
+            }
+            _isMovingUnits = true;
+            yield return new WaitForSeconds(0.2f);
+            _isMovingUnits = false;
+            _isNextTurn = true;
+            NextTurn();
+        }
+    }
+
     IEnumerator MoveUnits(List<Unit> units)
     {
         if (!_isMovingUnits)
@@ -227,7 +258,10 @@ public class GameManager : MonoBehaviour
             _isNextTurn = false;
 
             if (CurrentTurn == TurnId.Player)
+            {
                 PlayerUnit.RegenerateMana();
+                PlayerUnit.SetAbilityWalk();
+            }
         }
     }
 
@@ -282,7 +316,9 @@ public class GameManager : MonoBehaviour
         {
             if (collision.GetComponent<Unit>() != null)
                 status |= Tile.TileStatus.HasUnit;
-            
+            if (collision.GetComponent<InteractableEntity>() != null)
+                status |= Tile.TileStatus.HasUnit;
+
             status |= Tile.TileStatus.Blocked;
         }
         return status;
@@ -384,9 +420,14 @@ public class GameManager : MonoBehaviour
             if (cur.Equals(end))
             {
                 // If you can't walk to the end, walk one tile before
-                if (isEndWalkable.HasFlag(Tile.TileStatus.Blocked))
+                while (isEndWalkable.HasFlag(Tile.TileStatus.HasUnit) && end != null && end != start)
+                {
                     end = end.Parent;
-                if (end == start)
+                    isEndWalkable = end.Walkable;
+                }
+                if (isEndWalkable == Tile.TileStatus.Blocked)
+                    return null;
+                if (end == start || end == null)
                     return null;
                 return RetracePath(start, end);
             }

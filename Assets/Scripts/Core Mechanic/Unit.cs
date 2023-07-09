@@ -12,22 +12,40 @@ public class Unit : MonoBehaviour
     private Vector2Int _currentLookDirection = Vector2Int.down;
     private Transform _spriteObject;
 
+    private SpriteRenderer _spriteRenderer;
+    private Material _defaultMat;
+    private Material HitMat;
+
 
     // Start is called before the first frame update
     protected virtual void Awake()
     {
         _spriteObject = transform.GetChild(0);
+        _spriteRenderer = _spriteObject.GetComponent<SpriteRenderer>();
+        _defaultMat = _spriteRenderer.material;
+        HitMat = GameManager.Inst.HitMat;
     }
     
     protected virtual void Start()
     {
-
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
         
+    }
+
+    public void Hit()
+    {
+        _spriteRenderer.material = HitMat;
+        CancelInvoke(nameof(ResetMaterial));
+        Invoke(nameof(ResetMaterial), 0.2f);
+    }
+
+    private void ResetMaterial()
+    {
+        _spriteRenderer.material = _defaultMat;
     }
 
     public virtual bool Move(Vector2Int target)
@@ -198,4 +216,14 @@ public class Unit : MonoBehaviour
 
     public virtual void HoverInfo()
     { }
+
+    public virtual GameObject Target()
+    {
+        return null;
+    }
+
+    public virtual void DrawPath()
+    {
+
+    }
 }
