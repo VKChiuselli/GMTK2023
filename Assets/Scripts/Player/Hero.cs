@@ -42,7 +42,7 @@ public class Hero : Unit
             return;
         }
 
-        if (TargetClosest<Trap>(objs)) return;
+        //if (TargetClosest<Trap>(objs)) return;
         // Find closeset chest
         if (TargetClosest<Chest>(objs)) return;
         // Find keys

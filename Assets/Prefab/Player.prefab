@@ -117,7 +117,6 @@ GameObject:
   - component: {fileID: 4588700153337622929}
   - component: {fileID: 4588700153337622930}
   - component: {fileID: 4588700153337623023}
-  - component: {fileID: 4588700153337623022}
   - component: {fileID: 4588700153337623021}
   - component: {fileID: 4588700153337623020}
   m_Layer: 0
@@ -158,6 +157,7 @@ MonoBehaviour:
   MaxMovement: 4
   _isMoving: 0
   _currentLookDirection: {x: 0, y: -1}
+  HitMat: {fileID: 0}
   MaxMana: 3
   Mana: 3
   CurrentAbility: 0
@@ -247,19 +247,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &4588700153337623022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4588700153337622931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f8d05bfe29d56641b1f50edfacfc294, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Range: 0
 --- !u!114 &4588700153337623021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,8 +261,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstEffect: {fileID: 8300000, guid: 93acb9dd6550e5e4d97e826d913922a8, type: 3}
   secondEffect: {fileID: 8300000, guid: 1e08e7f53ee1891408de5329ad10427f, type: 3}
-  thirdEffect: {fileID: 8300000, guid: 66c802a4683116d4d811718fdaaeafdc, type: 3}
-  severalEffects: []
+  thirdEffect: {fileID: 0}
+  severalEffects:
+  - {fileID: 8300000, guid: b7b6c5111d4f08e4bb7fdb4a537e623d, type: 3}
 --- !u!82 &4588700153337623020
 AudioSource:
   m_ObjectHideFlags: 0

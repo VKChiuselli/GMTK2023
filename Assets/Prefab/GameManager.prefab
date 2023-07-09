@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8262301499141273188}
   - component: {fileID: 8262301499141273195}
   - component: {fileID: 8262301499141273194}
+  - component: {fileID: 1030696932}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -55,6 +56,9 @@ MonoBehaviour:
   BottomRightBounds: {x: 10, y: 10}
   MovementSpeed: 10
   CurrentTurn: 0
+  HitMat: {fileID: 2100000, guid: 2a42ae5c6441b2646bfd30115de203c1, type: 2}
+  SurprisedEffect: {fileID: 4575825944244731714, guid: f1b9c84428f19714eae489184e2174f3, type: 3}
+  GameOverScreen: {fileID: 0}
 --- !u!114 &8262301499141273195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,3 +92,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShadowMap: {fileID: 0}
   Shadow: {fileID: 11400000, guid: e30a1409c984e16458b4357da02c34e6, type: 2}
+  _switch: 0
+--- !u!114 &1030696932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262301499141273190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d689b268a5b065dadf1a6c3be446eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _keyCount: 0
+  _items: []

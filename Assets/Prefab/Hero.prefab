@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4589681157872802773}
   - component: {fileID: 2084962855689897278}
   - component: {fileID: 3237661660310615296}
+  - component: {fileID: 315328265}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -48,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5644110fd1dfb24c9bb5bd73bdbda77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxMovement: 1
+  MaxMovement: 5
   _isMoving: 0
   _currentLookDirection: {x: 0, y: -1}
   HitMat: {fileID: 2100000, guid: 2a42ae5c6441b2646bfd30115de203c1, type: 2}
@@ -195,6 +196,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 80cbf4eac7ef7b04686587c42c131468, type: 3}
   - {fileID: 8300000, guid: 0e509dc353108f042916e467abdf34c2, type: 3}
   - {fileID: 8300000, guid: 93acb9dd6550e5e4d97e826d913922a8, type: 3}
+--- !u!114 &315328265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4589681157872802772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f8d05bfe29d56641b1f50edfacfc294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Range: 5
 --- !u!1 &4589681158513643224
 GameObject:
   m_ObjectHideFlags: 0

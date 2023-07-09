@@ -55,7 +55,7 @@ public class Door : InteractableEntity
     {
         if (Inventory.Instance.TryUseKey())
         {
-            PlayOpenDoorSFX();
+            OpenDoor();
             Invoke(nameof(ChangeFloor), 1);
         }
         else
