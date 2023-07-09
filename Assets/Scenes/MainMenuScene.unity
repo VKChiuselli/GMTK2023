@@ -160,7 +160,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 220.00003, y: -56.550003}
+  m_AnchoredPosition: {x: 74.34844, y: -104.25}
   m_SizeDelta: {x: 135.3, y: 37.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1861039
@@ -2809,7 +2809,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 355.30002, y: -18.85}
+  m_AnchoredPosition: {x: 74.34844, y: -61.550003}
   m_SizeDelta: {x: 135.3, y: 37.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1258898074
@@ -3111,7 +3111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 84.70002, y: -18.85}
+  m_AnchoredPosition: {x: 74.34845, y: -18.849976}
   m_SizeDelta: {x: 135.3, y: 37.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1334518291
@@ -3487,8 +3487,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -359.99994, y: -24}
+  m_AnchoredPosition: {x: -257.99866, y: -164.90814}
+  m_SizeDelta: {x: -516.0031, y: -91.2563}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1460636398
 MonoBehaviour:
@@ -3511,7 +3511,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 135.3, y: 37.7}
-  m_Spacing: {x: 0, y: 0}
+  m_Spacing: {x: 0, y: 5}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &1460636399
@@ -3578,7 +3578,7 @@ GameObject:
   - component: {fileID: 1595190795}
   - component: {fileID: 1595190796}
   m_Layer: 5
-  m_Name: MusicSlider
+  m_Name: SFXSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3604,7 +3604,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 84.70002, y: -56.550003}
+  m_AnchoredPosition: {x: 209.64844, y: -61.550003}
   m_SizeDelta: {x: 135.3, y: 37.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1595190796
@@ -3660,7 +3660,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1460636399}
         m_TargetAssemblyTypeName: OptionSettings, Assembly-CSharp
-        m_MethodName: SetMusicVolume
+        m_MethodName: SetSFXVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4166,7 +4166,7 @@ GameObject:
   - component: {fileID: 1791616149}
   - component: {fileID: 1791616150}
   m_Layer: 5
-  m_Name: SFXSlider
+  m_Name: MusicSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4192,7 +4192,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 220.00003, y: -18.85}
+  m_AnchoredPosition: {x: 209.64844, y: -18.849976}
   m_SizeDelta: {x: 135.3, y: 37.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1791616150
@@ -4248,7 +4248,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1460636399}
         m_TargetAssemblyTypeName: OptionSettings, Assembly-CSharp
-        m_MethodName: SetSFXVolume
+        m_MethodName: SetMusicVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
