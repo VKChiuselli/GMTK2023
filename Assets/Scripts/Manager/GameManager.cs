@@ -99,6 +99,17 @@ public class GameManager : MonoBehaviour
 
         UnitController();
         CursorController();
+
+        if (Keyboard.current.rKey.isPressed)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        }
+        if (Keyboard.current.escapeKey.isPressed)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+
+
     }
 
     void HoverInfo()
