@@ -36,10 +36,9 @@ public class Hero : Unit
         var prevPosition = transform.position;
         List<GameObject> objs = GetObjectsInRange(false, 1000, true);
         // if they can move to you, game over
-        if (TargetClosest<Player>(objs))
+        if (TargetClosestPlayer(objs))
         {
             Instantiate(GameManager.Inst.SurprisedEffect, prevPosition + Vector3.up, Quaternion.identity);
-            GameManager.Inst.Invoke(nameof(GameManager.Inst.GameOverHeroSawParent), 0.8f);
             return;
         }
 
@@ -53,6 +52,27 @@ public class Hero : Unit
         // Find enemies
         if (TargetClosest<Enemies>(objs)) return;
 
+    }
+
+    protected bool TargetClosestPlayer(List<GameObject> interactable)
+    {
+        GameObject closest = GetClosestObject(interactable.FindAll(x => x.GetComponent<Player>() != null));
+        if (closest != null)
+        {
+
+            MoveTowards(Utility.Round(closest.transform.position));
+            if (Utility.Distance(transform.position, closest.transform.position) <= 1)
+            {
+                Player u = closest.GetComponent<Player>();
+                if (u != null && u != this)
+                {
+                    Instantiate(GameManager.Inst.SurprisedEffect, transform.position + Vector3.up, Quaternion.identity);
+                    GameManager.Inst.Invoke(nameof(GameManager.Inst.GameOverHeroSawParent), 0.8f);
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public override void Death(Unit causeOfDeath)
