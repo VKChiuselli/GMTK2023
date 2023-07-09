@@ -41,7 +41,8 @@ public class Unit : MonoBehaviour
         _spriteRenderer.material = HitMat;
         Death(other);
         CancelInvoke(nameof(ResetMaterial));
-        Invoke(nameof(ResetMaterial), 0.2f);
+        _isMoving = true;
+        Invoke(nameof(ResetMaterial), 0.5f);
     }
 
     private void ResetMaterial()
@@ -196,8 +197,11 @@ public class Unit : MonoBehaviour
 
     public virtual void Attack(Unit other)
     {
-        StartCoroutine(AttackCoroutine(other.transform.position));
-        other.Hit(this);
+        if (!_isMoving)
+        {
+            StartCoroutine(AttackCoroutine(other.transform.position));
+            other.Hit(this);
+        }
     }
 
     protected IEnumerator AttackCoroutine(Vector2 target)
