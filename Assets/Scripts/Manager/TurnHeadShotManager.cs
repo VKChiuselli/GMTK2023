@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class TurnHeadShotManager : MonoBehaviour
 {
-    [SerializeField] GameManager gameManager;
-   
-     
+  GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
+
     void Update()
     {
         if(gameManager.CurrentTurn == GameManager.TurnId.Player)
