@@ -213,7 +213,7 @@ public class BoardManager : MonoBehaviour
         var isEndWalkable = end.Walkable;
         end.Walkable = Tile.TileStatus.Walkable;
 
-        BFS(gameObject, startPos, maxDist, IsNotWalkable, null, null);
+        BFS(startPos, maxDist, IsNotWalkable, null, null);
 
         while (isEndWalkable.HasFlag(Tile.TileStatus.Blocked) && end != null && end != start)
         {
@@ -245,7 +245,7 @@ public class BoardManager : MonoBehaviour
      **/
     public delegate bool CannotTravelThrough(Tile cur, Tile neighbour, Vector2Int startPos);
     public delegate bool ShouldCheckNeighbour(Tile tile);
-    public delegate void OnCheckTile(Tile tile, GameObject caller);
+    public delegate void OnCheckTile(Tile tile);
 
     /// <summary>
     /// Pathfinding Function
@@ -262,7 +262,7 @@ public class BoardManager : MonoBehaviour
     /// <param name="checkNeighbour">A function to determine whether to check the neighbour tiles.</param>
     /// <param name="onCheckTile">A function called when the tile is added to the BFS.</param>
     /// <returns></returns>
-    public void BFS(GameObject caller, Vector2Int startPos, int maxDist, CannotTravelThrough canTravel, ShouldCheckNeighbour shouldCheckNeighbour, OnCheckTile onCheckTile)
+    public void BFS(Vector2Int startPos, int maxDist, CannotTravelThrough canTravel, ShouldCheckNeighbour shouldCheckNeighbour, OnCheckTile onCheckTile)
     {
         Tile start = Grid[startPos];
 
@@ -277,7 +277,7 @@ public class BoardManager : MonoBehaviour
             queue.RemoveAt(0);
             visited.Add(cur);
 
-            onCheckTile?.Invoke(cur, caller);
+            onCheckTile?.Invoke(cur);
             if (shouldCheckNeighbour != null && !shouldCheckNeighbour(cur)) continue;
 
             List<Tile> neighbours = GetNeighbours(cur);

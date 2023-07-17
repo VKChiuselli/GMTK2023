@@ -50,7 +50,7 @@ public class ShadowGridController : MonoBehaviour
             BoardManager.Tile start = BoardManager.Inst.Grid[startPos];
             start.Walkable = BoardManager.Tile.TileStatus.Walkable;
 
-            BoardManager.Inst.BFS(gameObject, startPos, maxDist, NotInLineOfSight, VisionNotBlocked, UpdateShadowMap);
+            BoardManager.Inst.BFS(startPos, maxDist, NotInLineOfSight, VisionNotBlocked, UpdateShadowMap);
         }
         
     }
@@ -62,7 +62,7 @@ public class ShadowGridController : MonoBehaviour
         return (tile.Walkable != BoardManager.Tile.TileStatus.Blocked);
     }
 
-    private void UpdateShadowMap(BoardManager.Tile tile, GameObject caller)
+    private void UpdateShadowMap(BoardManager.Tile tile)
     {
         ShadowMap.SetTile((Vector3Int)tile.Position, null);
         tile.IsVisible = BoardManager.Tile.Visibility.Visible;

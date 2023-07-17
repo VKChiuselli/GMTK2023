@@ -269,7 +269,7 @@ public class Unit : MonoBehaviour
         if (!needVisibility)
             travelFunction = BoardManager.Inst.TileNotInSight;
         BoardManager.Inst.ResetGrid();
-        BoardManager.Inst.BFS(gameObject, startPos, maxDist, travelFunction, null, checkTileFunction);
+        BoardManager.Inst.BFS(startPos, maxDist, travelFunction, null, checkTileFunction);
 
         return _objsInRange;
     }
@@ -335,12 +335,12 @@ public class Unit : MonoBehaviour
     // TODO Rename these like boardmanager
     #region Delegates from BoardManager
     
-    private void UpdateHeroSight(BoardManager.Tile tile, GameObject caller)
+    private void UpdateHeroSight(BoardManager.Tile tile)
     {
         BoardManager.Inst.UpdateHeroSight(tile.Position);
     }
 
-    private void AddObjectInRange(BoardManager.Tile tile, GameObject caller)
+    private void AddObjectInRange(BoardManager.Tile tile)
     {
         _objsInRange.AddRange(GetObjectsAtPosition(tile.Position));
     }

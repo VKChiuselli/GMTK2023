@@ -29,7 +29,7 @@ public class GridMovementController : MonoBehaviour
         BoardManager.Inst.ResetGrid();
         BoardManager.Tile start = BoardManager.Inst.Grid[startPos];
         start.Walkable = BoardManager.Tile.TileStatus.Walkable;
-        BoardManager.Inst.BFS(gameObject, startPos, maxDist, CannotWalkOn, null, UpdateMovementMap);
+        BoardManager.Inst.BFS(startPos, maxDist, CannotWalkOn, null, UpdateMovementMap);
     }
 
     public void DrawMovementPath(List<Vector2Int> path, Vector2Int startPos)
@@ -139,7 +139,7 @@ public class GridMovementController : MonoBehaviour
     }
 
     #region Delegate Functions
-    private void UpdateMovementMap(BoardManager.Tile tile, GameObject caller)
+    private void UpdateMovementMap(BoardManager.Tile tile)
     {
         if (tile.Walkable.HasFlag(BoardManager.Tile.TileStatus.HasUnit) || tile.Walkable.HasFlag(BoardManager.Tile.TileStatus.Blocked))
             MovementMap.SetTile((Vector3Int)tile.Position, CantMoveTile);
