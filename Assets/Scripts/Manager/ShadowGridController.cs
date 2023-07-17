@@ -12,8 +12,8 @@ public class ShadowGridController : MonoBehaviour
     private bool _switch = false;
     public void DrawShadow()
     {
-        Vector2Int topLeft = GameManager.Inst.TopLeftBounds;
-        Vector2Int bottomRight = GameManager.Inst.BottomRightBounds;
+        Vector2Int topLeft = BoardManager.Inst.TopLeftBounds;
+        Vector2Int bottomRight = BoardManager.Inst.BottomRightBounds;
 
         for (int x = topLeft.x; x < bottomRight.x; x++)
         {
@@ -23,9 +23,9 @@ public class ShadowGridController : MonoBehaviour
             }
         }
 
-        foreach(var key in GameManager.Inst.Grid.Keys)
+        foreach(var key in BoardManager.Inst.Grid.Keys)
         {
-            GameManager.Inst.Grid[key].IsVisible = GameManager.Tile.Visibility.Invisible;
+            BoardManager.Inst.Grid[key].IsVisible = BoardManager.Tile.Visibility.Invisible;
         }
     }
 
@@ -36,57 +36,44 @@ public class ShadowGridController : MonoBehaviour
             Vector2Int startPos = Utility.Round(light.transform.position);
             int maxDist = light.Range;
 
-            GameManager.Inst.UpdateGrid();
-
             if (_switch)
             {
-                Dictionary <Vector2Int, GameManager.Tile> Grid2 = GameManager.Inst.Grid.GetTilesInRange(startPos, maxDist, true);
+                Dictionary<Vector2Int, BoardManager.Tile> Grid2 = BoardManager.Inst.Grid.GetTilesInRange(startPos, maxDist, true);
                 foreach (var tile in Grid2.Values)
                 {
                     ShadowMap.SetTile((Vector3Int)tile.Position, null);
                 }
                 continue;
             }
+            BoardManager.Inst.ResetGrid();
 
+            BoardManager.Tile start = BoardManager.Inst.Grid[startPos];
+            start.Walkable = BoardManager.Tile.TileStatus.Walkable;
 
-            Dictionary <Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
-
-
-
-            GameManager.Tile start = Grid[startPos];
-            start.Walkable = GameManager.Tile.TileStatus.Walkable;
-            List<GameManager.Tile> queue = new List<GameManager.Tile>();
-            HashSet<GameManager.Tile> visited = new HashSet<GameManager.Tile>();
-            queue.Add(start);
-            // Fail safe for the loop at the end
-            while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4 + 6)
-            {
-                GameManager.Tile cur = queue[0];
-                queue.RemoveAt(0);
-                visited.Add(cur);
-                ShadowMap.SetTile((Vector3Int)cur.Position, null);
-                cur.IsVisible = GameManager.Tile.Visibility.Visible;
-
-                if (cur.Walkable == GameManager.Tile.TileStatus.Blocked) continue;
-
-                List<GameManager.Tile> neighbours = GameManager.Inst.GetNeighbours(cur);
-                foreach (GameManager.Tile neighbour in neighbours)
-                {  
-                    if (visited.Contains(neighbour)) continue;
-                    if (queue.Contains(neighbour)) continue;
-                    if (GameManager.Inst.GetDistance(start, cur) >= maxDist) continue;
-
-                    // Show ranges that you can walk on but contains a unit on it
-                    if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit)) continue;
-
-                    // Check line of sight
-                    if (GameManager.Inst.LineOfSightBlocked(startPos, neighbour.Position)) continue;
-                    queue.Add(neighbour);
-                }
-            }
-            if (queue.Count > maxDist * maxDist && maxDist > 1)
-                Debug.LogError("BFS Search reached maxed. Max dist is " + maxDist.ToString());
+            BoardManager.Inst.BFS(gameObject, startPos, maxDist, NotInLineOfSight, VisionNotBlocked, UpdateShadowMap);
         }
         
     }
+
+    #region Delegates
+
+    private bool VisionNotBlocked(BoardManager.Tile tile)
+    {
+        return (tile.Walkable != BoardManager.Tile.TileStatus.Blocked);
+    }
+
+    private void UpdateShadowMap(BoardManager.Tile tile, GameObject caller)
+    {
+        ShadowMap.SetTile((Vector3Int)tile.Position, null);
+        tile.IsVisible = BoardManager.Tile.Visibility.Visible;
+    }
+
+    private bool NotInLineOfSight(BoardManager.Tile cur, BoardManager.Tile neighbour, Vector2Int startPos)
+    {
+        // Show ranges that you can walk on but contains a unit on it
+        return (cur.Walkable.HasFlag(BoardManager.Tile.TileStatus.HasUnit) && !neighbour.Walkable.HasFlag(BoardManager.Tile.TileStatus.HasUnit)) ||
+               (BoardManager.Inst.LineOfSightBlocked(startPos, neighbour.Position));
+    }
+
+    #endregion
 }

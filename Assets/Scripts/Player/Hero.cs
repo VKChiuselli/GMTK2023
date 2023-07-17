@@ -27,14 +27,14 @@ public class Hero : Unit
 
     public override void HoverInfo()
     {
-        GetObjectsInRange(true, 1000, true);
+        GetObjectsInRange(1000, true, true);
         base.HoverInfo();
     }
 
     public override void AILogic()
     {
         var prevPosition = transform.position;
-        List<GameObject> objs = GetObjectsInRange(false, 1000, true);
+        List<GameObject> objs = GetObjectsInRange(1000, false, true);
         // if they can move to you, game over
         if (TargetClosestPlayer(objs))
         {
