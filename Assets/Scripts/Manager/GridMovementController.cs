@@ -13,55 +13,23 @@ public class GridMovementController : MonoBehaviour
     public Tile EndTile;
     public Tile Visibility;
 
-    public void ClearGrid()
+    private bool _ignoreWalls = false;
+    private bool _needLineOfSite = false;
+
+    private void ClearGrid()
     {
         MovementMap.ClearAllTiles();
     }
 
     public void DrawWalkablePath(Vector2Int startPos, int maxDist, bool ignoreWalls, bool needLineOfSite)
     {
-        Dictionary<Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
-        GameManager.Inst.UpdateGrid();
-
-        GameManager.Tile start = Grid[startPos];
-        start.Walkable = GameManager.Tile.TileStatus.Walkable;
-
-
-        List<GameManager.Tile> queue = new List<GameManager.Tile>();
-        HashSet<GameManager.Tile> visited = new HashSet<GameManager.Tile>();
-        queue.Add(start);
-
-        // Fail safe for the loop at the end
-        while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4 + 6)
-        {
-            GameManager.Tile cur = queue[0];
-            queue.RemoveAt(0);
-            visited.Add(cur);
-
-            if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) || cur.Walkable.HasFlag(GameManager.Tile.TileStatus.Blocked))
-                MovementMap.SetTile((Vector3Int)cur.Position, CantMoveTile);
-            else
-                MovementMap.SetTile((Vector3Int)cur.Position, CanMoveTile);
-
-            List<GameManager.Tile> neighbours = GameManager.Inst.GetNeighbours(cur);
-            foreach (GameManager.Tile neighbour in neighbours)
-            {
-                if (neighbour.Walkable == GameManager.Tile.TileStatus.Blocked && !ignoreWalls) continue;
-                if (visited.Contains(neighbour)) continue;
-                if (GameManager.Inst.GetDistance(start, cur) >= maxDist) continue;
-                if (queue.Contains(neighbour)) continue;
-
-                // Show ranges that you can walk on but contains a unit on it
-                if (cur.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) && !neighbour.Walkable.HasFlag(GameManager.Tile.TileStatus.HasUnit) && !ignoreWalls) continue;
-
-                if (needLineOfSite && GameManager.Inst.LineOfSightBlocked(startPos, neighbour.Position)) continue;
-
-                neighbour.Parent = cur;
-                queue.Add(neighbour);
-            }
-        }
-        if (queue.Count > maxDist * maxDist && maxDist != 1)
-            Debug.LogError("BFS Search reached maxed. Max dist is " + maxDist.ToString());
+        ClearGrid();
+        _ignoreWalls = ignoreWalls;
+        _needLineOfSite = needLineOfSite;
+        BoardManager.Inst.ResetGrid();
+        BoardManager.Tile start = BoardManager.Inst.Grid[startPos];
+        start.Walkable = BoardManager.Tile.TileStatus.Walkable;
+        BoardManager.Inst.BFS(startPos, maxDist, CannotWalkOn, null, UpdateMovementMap);
     }
 
     public void DrawMovementPath(List<Vector2Int> path, Vector2Int startPos)
@@ -166,7 +134,25 @@ public class GridMovementController : MonoBehaviour
 
     public void DrawHeroVisibility(Vector2Int pos)
     {
-        GameManager.Inst.Grid[pos].IsVisible = GameManager.Tile.Visibility.HeroVisible;
+        BoardManager.Inst.Grid[pos].IsVisible = BoardManager.Tile.Visibility.HeroVisible;
         MovementMap.SetTile((Vector3Int)pos, Visibility);
     }
+
+    #region Delegate Functions
+    private void UpdateMovementMap(BoardManager.Tile tile)
+    {
+        if (tile.Walkable.HasFlag(BoardManager.Tile.TileStatus.HasUnit) || tile.Walkable.HasFlag(BoardManager.Tile.TileStatus.Blocked))
+            MovementMap.SetTile((Vector3Int)tile.Position, CantMoveTile);
+        else
+            MovementMap.SetTile((Vector3Int)tile.Position, CanMoveTile);
+    }
+
+    private bool CannotWalkOn(BoardManager.Tile cur, BoardManager.Tile neighbour, Vector2Int startPos)
+    {
+        // Show ranges that you can walk on but contains a unit on it
+        return (!_ignoreWalls && neighbour.Walkable == BoardManager.Tile.TileStatus.Blocked) ||
+               (!_ignoreWalls && cur.Walkable.HasFlag(BoardManager.Tile.TileStatus.HasUnit) && !neighbour.Walkable.HasFlag(BoardManager.Tile.TileStatus.HasUnit)) ||
+               (_needLineOfSite && BoardManager.Inst.LineOfSightBlocked(startPos, neighbour.Position));
+    }
+    #endregion
 }

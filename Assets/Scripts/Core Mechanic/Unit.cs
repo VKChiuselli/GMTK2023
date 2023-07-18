@@ -7,6 +7,7 @@ public class Unit : MonoBehaviour
 {
     public int MaxMovement = 3;
     public bool _isMoving = false;
+    public Material HitMat;
 
     [SerializeField]
     private Vector2Int _currentLookDirection = Vector2Int.down;
@@ -14,7 +15,9 @@ public class Unit : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private Material _defaultMat;
-    public Material HitMat;
+
+    // Updated with the getObjs in Range Method
+    private List<GameObject> _objsInRange = new List<GameObject>();
 
 
     // Start is called before the first frame update
@@ -55,7 +58,7 @@ public class Unit : MonoBehaviour
     {
         if (!_isMoving)
         {
-            List<Vector2Int> path = GameManager.Inst.FindPath(_spriteObject.position, target, MaxMovement);
+            List<Vector2Int> path = BoardManager.Inst.FindPath(_spriteObject.position, target, MaxMovement);
 
             if (path != null)
             {
@@ -84,7 +87,7 @@ public class Unit : MonoBehaviour
         if (!_isMoving)
         {
             
-            List<Vector2Int> path = GameManager.Inst.FindPath(_spriteObject.position, target, 1000);
+            List<Vector2Int> path = BoardManager.Inst.FindPath(_spriteObject.position, target, 1000);
 
             if (path != null)
             {
@@ -253,57 +256,25 @@ public class Unit : MonoBehaviour
         return false;
     }
 
-    public List<GameObject> GetObjectsInRange(bool showRange, int maxDist, bool needVisibility)
+    public List<GameObject> GetObjectsInRange(int maxDist, bool showRange, bool needVisibility)
     {
-        List<GameObject> obj = new List<GameObject>();
+        _objsInRange.Clear();
         Vector2Int startPos = Utility.Round(transform.position);
 
+        BoardManager.CannotTravelThrough travelFunction = BoardManager.Inst.TileNotVisible;
+        BoardManager.OnCheckTile checkTileFunction = UpdateHeroSight;
 
-        GameManager.Inst.UpdateGrid();
-        Dictionary<Vector2Int, GameManager.Tile> Grid = GameManager.Inst.Grid;
+        if (!showRange)
+            checkTileFunction = AddObjectInRange;
+        if (!needVisibility)
+            travelFunction = BoardManager.Inst.TileNotInSight;
+        BoardManager.Inst.ResetGrid();
+        BoardManager.Inst.BFS(startPos, maxDist, travelFunction, null, checkTileFunction);
 
-        GameManager.Tile start = Grid[startPos];
-        start.Walkable = GameManager.Tile.TileStatus.Walkable;
-
-
-        List<GameManager.Tile> queue = new List<GameManager.Tile>();
-        HashSet<GameManager.Tile> visited = new HashSet<GameManager.Tile>();
-        queue.Add(start);
-
-        // Fail safe for the loop at the end
-        while (queue.Count > 0 && queue.Count < maxDist * maxDist * 4 + 6)
-        {
-            GameManager.Tile cur = queue[0];
-            queue.RemoveAt(0);
-            visited.Add(cur);
-
-            // 2 in one function... kind of bad to do...
-            if (showRange)
-                GameManager.Inst.UpdateHeroSight(cur.Position);
-            else
-                obj.AddRange(GetObjectsAtPosition(cur.Position));
-
-            List<GameManager.Tile> neighbours = GameManager.Inst.GetNeighbours(cur);
-            foreach (GameManager.Tile neighbour in neighbours)
-            {
-                // You can see the walls at least
-                if (neighbour.IsVisible != GameManager.Tile.Visibility.Visible && needVisibility) continue;
-                if (visited.Contains(neighbour)) continue;
-                if (GameManager.Inst.GetDistance(start, cur) >= maxDist) continue;
-                if (queue.Contains(neighbour)) continue;
-                // Check line of sight
-                if (GameManager.Inst.LineOfSightBlocked(startPos, neighbour.Position)) continue;
-
-                neighbour.Parent = cur;
-                queue.Add(neighbour);
-            }
-        }
-        if (queue.Count > maxDist * maxDist)
-            Debug.LogError("BFS Search reached maxed. Max dist is " + maxDist.ToString());
-
-        return obj;
+        return _objsInRange;
     }
 
+    # region Utility
     protected List<GameObject> GetObjectsAtPosition(Vector2Int position)
     {
         List<GameObject> objs = new();
@@ -359,4 +330,20 @@ public class Unit : MonoBehaviour
         return closest;
 
     }
+    #endregion
+
+    // TODO Rename these like boardmanager
+    #region Delegates from BoardManager
+    
+    private void UpdateHeroSight(BoardManager.Tile tile)
+    {
+        BoardManager.Inst.UpdateHeroSight(tile.Position);
+    }
+
+    private void AddObjectInRange(BoardManager.Tile tile)
+    {
+        _objsInRange.AddRange(GetObjectsAtPosition(tile.Position));
+    }
+
+    #endregion
 }

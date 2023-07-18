@@ -181,8 +181,8 @@ public class Player : Unit
     {
         if (!_isMoving)
         {
-            if (GameManager.Inst.Grid.ContainsKey(target) &&
-               !GameManager.Inst.Grid[target].Walkable.HasFlag(GameManager.Tile.TileStatus.Blocked) &&
+            if (BoardManager.Inst.Grid.ContainsKey(target) &&
+               !BoardManager.Inst.Grid[target].Walkable.HasFlag(BoardManager.Tile.TileStatus.Blocked) &&
                 Utility.Distance(transform.position, target) <= MaxMovement
                 )
             {
@@ -210,10 +210,10 @@ public class Player : Unit
     {
         if (!_isMoving)
         {
-            if (GameManager.Inst.Grid.ContainsKey(target) &&
-                GameManager.Inst.Grid[target].Walkable != GameManager.Tile.TileStatus.Blocked &&
+            if (BoardManager.Inst.Grid.ContainsKey(target) &&
+                BoardManager.Inst.Grid[target].Walkable != BoardManager.Tile.TileStatus.Blocked &&
                 Utility.Distance(transform.position, target) <= MaxMovement &&
-                !GameManager.Inst.LineOfSightBlocked(Utility.Round(transform.position), target)
+                !BoardManager.Inst.LineOfSightBlocked(Utility.Round(transform.position), target)
                 )
             {
                 Unit unit = GetUnitAtPoint(target);
@@ -244,10 +244,10 @@ public class Player : Unit
     {
         if (!_isMoving)
         {
-            if (GameManager.Inst.Grid.ContainsKey(target) &&
-               GameManager.Inst.Grid[target].Walkable != GameManager.Tile.TileStatus.Blocked &&
+            if (BoardManager.Inst.Grid.ContainsKey(target) &&
+               BoardManager.Inst.Grid[target].Walkable != BoardManager.Tile.TileStatus.Blocked &&
                 Utility.Distance(transform.position, target) <= MaxMovement &&
-                !GameManager.Inst.LineOfSightBlocked(Utility.Round(transform.position), target)
+                !BoardManager.Inst.LineOfSightBlocked(Utility.Round(transform.position), target)
                 )
             {
                 PlayWindSFX();

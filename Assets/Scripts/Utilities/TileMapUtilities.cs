@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Assets.Scripts;
-using Tile = GameManager.Tile;
+using Tile = BoardManager.Tile;
 
 public static class TileMapUtilities
 {
@@ -19,12 +19,12 @@ public static class TileMapUtilities
                 {
                     if (inLineOfSight)
                     {
-                        if (GameManager.Inst.LineOfSightBlocked(startTile, coords, true))
+                        if (BoardManager.Inst.LineOfSightBlocked(startTile, coords, true))
                         {
                             continue;
                         }
                     }
-                    tilesInRange.Add(coords, GameManager.Inst.Grid[coords]);
+                    tilesInRange.Add(coords, BoardManager.Inst.Grid[coords]);
                 }
                 else
                 {
