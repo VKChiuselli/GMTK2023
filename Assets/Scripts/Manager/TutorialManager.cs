@@ -39,7 +39,7 @@ public class TutorialManager : MonoBehaviour
             tutorialText.text = sentecesTutorial[tutorialIndexSenteces];
             gameManager.gameObject.SetActive(false);
 
-            if (Input.GetKeyDown(KeyCode.N))
+            if (Input.GetKeyDown(KeyCode.N) || Input.GetMouseButtonDown(0))
             {
                 tutorialIndexSenteces = tutorialIndexSenteces + 1;
 
