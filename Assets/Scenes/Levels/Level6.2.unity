@@ -3317,7 +3317,7 @@ PrefabInstance:
       objectReference: {fileID: 499174419}
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.data[0]

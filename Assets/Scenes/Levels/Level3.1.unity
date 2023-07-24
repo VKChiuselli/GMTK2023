@@ -3142,17 +3142,15 @@ PrefabInstance:
       objectReference: {fileID: 499174419}
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.data[0]
-      value: Sometimes Dunkus can't see things in the darkenss. Help him out with
-        a little fire.
+      value: "The darkness spreads farther here, he can\u2019t see very well!"
       objectReference: {fileID: 0}
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.data[1]
-      value: Now as a powerful mage, I  don't need to run to the next room, it's
-        definitely not because of my old aching bones but because I'm powerful!
+      value: Help him out with a little fire.
       objectReference: {fileID: 0}
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.data[2]

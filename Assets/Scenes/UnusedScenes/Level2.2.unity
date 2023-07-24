@@ -3203,7 +3203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.data[0]
-      value: Every good Mage should have powerfull spells. Try out Teleport.
+      value: You can teleport to avoid detection too.
       objectReference: {fileID: 0}
     - target: {fileID: 878348127344725684, guid: 882a6c6901d1545438cfa3fd8fd8374f, type: 3}
       propertyPath: sentecesTutorial.Array.data[1]
