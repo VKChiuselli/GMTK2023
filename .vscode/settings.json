@@ -52,5 +52,6 @@
         "temp/":true,
         "Temp/":true
     },
-    "diffEditor.codeLens": true
+    "diffEditor.codeLens": true,
+    "dotnet.defaultSolution": "GMTK2023.sln"
 }

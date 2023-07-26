@@ -44,13 +44,13 @@ public class Hero : Unit
 
         //if (TargetClosest<Trap>(objs)) return;
         // Find closeset chest
-        if (TargetClosest<Chest>(objs)) return;
+        if (TargetClosest<Chest>(objs, true)) return;
         // Find keys
-        if (TargetClosest<Key>(objs)) return;
+        if (TargetClosest<Key>(objs, true)) return;
         // Find Doors
-        if (TargetClosest<Door>(objs)) return;
+        if (TargetClosest<Door>(objs, true)) return;
         // Find enemies
-        if (TargetClosest<Enemies>(objs)) return;
+        if (TargetClosest<Enemies>(objs, true)) return;
 
     }
 

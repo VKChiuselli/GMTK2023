@@ -86,7 +86,6 @@ public class Unit : MonoBehaviour
         bool canMoveToTarget = false;
         if (!_isMoving)
         {
-            
             List<Vector2Int> path = BoardManager.Inst.FindPath(_spriteObject.position, target, 1000);
 
             if (path != null)
@@ -230,30 +229,47 @@ public class Unit : MonoBehaviour
     }
 
 
-    protected bool TargetClosest<T>(List<GameObject> interactable)
+    protected bool TargetClosest<T>(List<GameObject> interactable, bool immediatelyInteract = false)
     {
         GameObject closest = GetClosestObject(interactable.FindAll(x => x.GetComponent<T>() != null));
+        
         if (closest != null)
         {
-            if (Utility.Distance(transform.position, closest.transform.position) <= 1)
+            if (!TryInteract<T>(closest))
             {
-                T component = closest.GetComponent<T>();
-                InteractableEntity item = component as InteractableEntity;
-                if (item != null)
-                {
-                    item.InteractWith(this);
-                }
-                Unit u = component as Unit;
-                if (u != null && u!= this)
-                {
-                    Attack(u);
-                }
-            }
-            else
                 MoveTowards(Utility.Round(closest.transform.position));
+            }
+            if (immediatelyInteract)
+            {
+                TryInteract<T>(closest);
+            }
             return true;
         }
         return false;
+    }
+
+    protected bool TryInteract<T>(GameObject closest)
+    {
+        if (Utility.Distance(transform.position, closest.transform.position) <= 1)
+        {
+            T component = closest.GetComponent<T>();
+            InteractableEntity item = component as InteractableEntity;
+            if (item != null)
+            {
+                item.InteractWith(this);
+            }
+            Unit u = component as Unit;
+            if (u != null && u!= this)
+            {
+                Attack(u);
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
     }
 
     public List<GameObject> GetObjectsInRange(int maxDist, bool showRange, bool needVisibility)
