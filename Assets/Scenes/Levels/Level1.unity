@@ -8049,6 +8049,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4588700153337622929, guid: d130014b27134068faf79cd1ac3a722c, type: 3}
+      propertyPath: Mana
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4588700153337622929, guid: d130014b27134068faf79cd1ac3a722c, type: 3}
+      propertyPath: MaxMana
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4588700153337622929, guid: d130014b27134068faf79cd1ac3a722c, type: 3}
       propertyPath: Description
       value: 
       objectReference: {fileID: 689025845}

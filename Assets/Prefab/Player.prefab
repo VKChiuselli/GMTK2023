@@ -156,10 +156,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxMovement: 4
   _isMoving: 0
-  _currentLookDirection: {x: 0, y: -1}
   HitMat: {fileID: 0}
-  MaxMana: 3
-  Mana: 3
+  _currentLookDirection: {x: 0, y: -1}
+  MaxMana: 4
+  Mana: 4
   CurrentAbility: 0
   IgnoreWalls: 0
   NeedLineOfSight: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public int MaxMovement = 3;
+    public int MaxMovement = 4;
     public bool _isMoving = false;
     public Material HitMat;
 

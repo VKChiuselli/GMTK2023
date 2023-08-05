@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Player : Unit
 {
-    public int MaxMana = 3;
-    public int Mana = 5;
+    public int MaxMana = 4;
+    public int Mana = 4;
     public Abilities CurrentAbility = Abilities.Walk;
     //public RectTransform ManaImage;
     public bool IgnoreWalls = false;
@@ -66,12 +66,12 @@ public class Player : Unit
             case Abilities.FireBall:
                 didMove = Fireball(target);
                 if (didMove)
-                    Mana -= 3;
+                    Mana -= 2;
                 break;
             case Abilities.Wind:
                 didMove = WindGust(target);
                 if (didMove)
-                    Mana -= 1;
+                    Mana -= 2;
                 break;
         }
 
@@ -135,7 +135,7 @@ public class Player : Unit
             IgnoreWalls = true;
             NeedLineOfSight = false;
             CurrentAbility = Abilities.Teleport;
-            MaxMovement = Mana;
+            MaxMovement = 3;
             SetDescription();
         }
     }
@@ -313,13 +313,13 @@ public class Player : Unit
                 Description.text = "Move [x mana]: x = Number of spaces moved";
                 break;
             case Abilities.FireBall:
-                Description.text = "FireBall [3 mana]: Lights a Tile on fire";
+                Description.text = "FireBall [2 mana]: Lights a Tile on fire";
                 break;
             case Abilities.Teleport:
                 Description.text = "Teleport [2 mana]: Teleports self to a tile";
                 break;
             case Abilities.Wind:
-                Description.text = "Wind Gust [1 mana]: Blows wind on a targeted tile";
+                Description.text = "Wind Gust [2 mana]: Blows wind on a targeted tile";
                 break;
         }
     }
