@@ -18,7 +18,7 @@ namespace finished3
         private List<OverlayTile> path;
         private List<OverlayTile> rangeFinderTiles;
         private bool isMoving;
-
+        OverlayTile currentTileCharacter;
         private void Start()
         {
             pathFinder = new PathFinder();
@@ -40,7 +40,13 @@ namespace finished3
                 cursor.transform.position = tile.transform.position;
                 cursor.gameObject.GetComponent<SpriteRenderer>().sortingOrder = tile.transform.GetComponent<SpriteRenderer>().sortingOrder;
 
-                if (rangeFinderTiles.Contains(tile) && !isMoving)
+                if (character != null)
+                {
+                    currentTileCharacter = tile;
+                }
+             
+
+                    if (rangeFinderTiles.Contains(tile) && !isMoving)
                 {
                     path = pathFinder.FindPath(character.standingOnTile, tile, rangeFinderTiles);
 
@@ -61,7 +67,20 @@ namespace finished3
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    tile.ShowTile();
+                    if (character != null)
+                    {
+                        if (currentTileCharacter == character.standingOnTile)
+                        {
+                            //We do this because the player stop to click
+                            GetInRangeTiles();
+                            return;
+                        
+                        }
+
+                    }
+               
+
+                        tile.ShowTile();
 
                     if (character == null)
                     {
@@ -77,6 +96,7 @@ namespace finished3
                     }
                 }
             }
+
 
             if (path.Count > 0 && isMoving)
             {
