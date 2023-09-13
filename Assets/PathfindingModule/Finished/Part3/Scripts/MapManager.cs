@@ -21,7 +21,8 @@ namespace finished3
             if (_instance != null && _instance != this)
             {
                 Destroy(this.gameObject);
-            } else
+            }
+            else
             {
                 _instance = this;
             }
@@ -31,7 +32,7 @@ namespace finished3
         {
             var tileMaps = gameObject.transform.GetComponentsInChildren<Tilemap>().OrderByDescending(x => x.GetComponent<TilemapRenderer>().sortingOrder);
             map = new Dictionary<Vector2Int, OverlayTile>();
-
+            int counterName = 0;
             foreach (var tm in tileMaps)
             {
                 BoundsInt bounds = tm.cellBounds;
@@ -55,7 +56,8 @@ namespace finished3
                                     overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y, cellWorldPosition.z + 1);
                                     overlayTile.GetComponent<SpriteRenderer>().sortingOrder = tm.GetComponent<TilemapRenderer>().sortingOrder;
                                     overlayTile.gameObject.GetComponent<OverlayTile>().gridLocation = new Vector3Int(x, y, z);
-    
+                                    overlayTile.gameObject.name = overlayTile.gameObject.name + counterName;
+                                    counterName = counterName + 1;
                                     map.Add(new Vector2Int(x, y), overlayTile.gameObject.GetComponent<OverlayTile>());
                                 }
                             }

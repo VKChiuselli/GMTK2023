@@ -17,8 +17,9 @@ namespace finished3
         private ArrowTranslator arrowTranslator;
         private List<OverlayTile> path;
         private List<OverlayTile> rangeFinderTiles;
-        private bool isMoving;
+        public bool isMoving;
         OverlayTile currentTileCharacter;
+     public   OverlayTile currentTileMouse;
         private void Start()
         {
             pathFinder = new PathFinder();
@@ -44,9 +45,9 @@ namespace finished3
                 {
                     currentTileCharacter = tile;
                 }
-             
 
-                    if (rangeFinderTiles.Contains(tile) && !isMoving)
+
+                if (rangeFinderTiles.Contains(tile) && !isMoving)
                 {
                     path = pathFinder.FindPath(character.standingOnTile, tile, rangeFinderTiles);
 
@@ -65,8 +66,19 @@ namespace finished3
                     }
                 }
 
+                if (path.Count > 0)
+                {
+                    currentTileMouse = tile;
+                }
+
                 if (Input.GetMouseButtonDown(0))
                 {
+                    //if(resetPath)
+                    //{
+                    //    return;
+                    //}
+
+
                     if (character != null)
                     {
                         if (currentTileCharacter == character.standingOnTile)
@@ -74,13 +86,13 @@ namespace finished3
                             //We do this because the player stop to click
                             GetInRangeTiles();
                             return;
-                        
+
                         }
 
                     }
-               
 
-                        tile.ShowTile();
+                    tile.ShowTile();
+
 
                     if (character == null)
                     {
@@ -91,17 +103,58 @@ namespace finished3
                     }
                     else
                     {
-                        isMoving = true;
-                        tile.gameObject.GetComponent<OverlayTile>().HideTile();
+                        if (CheckIfClickedOnTheTile(path,   tile))
+                        {
+                            isMoving = true;
+                            tile.gameObject.GetComponent<OverlayTile>().HideTile();
+                        }
+
                     }
+
+
+
                 }
             }
+            //else
+            //{
+            //   // resetPath = true;
+            //    path.Clear();
+            //    return;
+            //  //  currentTileMouse = null;
+            //}
 
 
             if (path.Count > 0 && isMoving)
             {
                 MoveAlongPath();
             }
+        }
+
+        bool resetPath;
+
+        private bool CheckIfClickedOnTheTile(List<OverlayTile> path, OverlayTile tile)
+        {
+       //    if(currentTileMouse!=null)
+          if (currentTileMouse == path[path.Count - 1])
+            {
+      
+                return true;
+            }
+            foreach (var item in path)
+            {
+                MapManager.Instance.map[item.grid2DLocation].SetSprite(ArrowDirection.None);
+            }
+            foreach (var item in rangeFinderTiles)
+            {
+                MapManager.Instance.map[item.grid2DLocation].SetSprite(ArrowDirection.None);
+            }
+              tile.HideTile();
+
+            GetInRangeTiles();
+
+            //  tile.ShowTile();
+
+            return false;
         }
 
         private void MoveAlongPath()
@@ -148,9 +201,11 @@ namespace finished3
             return null;
         }
 
+    public    int howMuchPlayerMove = 3;
+
         private void GetInRangeTiles()
         {
-            rangeFinderTiles = rangeFinder.GetTilesInRange(new Vector2Int(character.standingOnTile.gridLocation.x, character.standingOnTile.gridLocation.y), 3);
+            rangeFinderTiles = rangeFinder.GetTilesInRange(new Vector2Int(character.standingOnTile.gridLocation.x, character.standingOnTile.gridLocation.y), howMuchPlayerMove);
 
             foreach (var item in rangeFinderTiles)
             {
