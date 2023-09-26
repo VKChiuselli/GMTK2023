@@ -19,7 +19,7 @@ namespace finished3
         private List<OverlayTile> rangeFinderTiles;
         public bool isMoving;
         OverlayTile currentTileCharacter;
-     public   OverlayTile currentTileMouse;
+        public OverlayTile currentTileMouse;
         private void Start()
         {
             pathFinder = new PathFinder();
@@ -103,7 +103,7 @@ namespace finished3
                     }
                     else
                     {
-                        if (CheckIfClickedOnTheTile(path,   tile))
+                        if (CheckIfClickedOnTheTile(path, tile))
                         {
                             isMoving = true;
                             tile.gameObject.GetComponent<OverlayTile>().HideTile();
@@ -134,10 +134,10 @@ namespace finished3
 
         private bool CheckIfClickedOnTheTile(List<OverlayTile> path, OverlayTile tile)
         {
-       //    if(currentTileMouse!=null)
-          if (currentTileMouse == path[path.Count - 1])
+            //    if(currentTileMouse!=null)
+            if (currentTileMouse == path[path.Count - 1])
             {
-      
+
                 return true;
             }
             foreach (var item in path)
@@ -148,7 +148,7 @@ namespace finished3
             {
                 MapManager.Instance.map[item.grid2DLocation].SetSprite(ArrowDirection.None);
             }
-              tile.HideTile();
+            tile.HideTile();
 
             GetInRangeTiles();
 
@@ -201,7 +201,7 @@ namespace finished3
             return null;
         }
 
-    public    int howMuchPlayerMove = 3;
+        public int howMuchPlayerMove = 3;
 
         private void GetInRangeTiles()
         {
