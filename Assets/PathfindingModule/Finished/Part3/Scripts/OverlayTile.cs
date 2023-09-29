@@ -18,34 +18,53 @@ namespace finished3
 
         public List<Sprite> arrows;
 
+        public SpriteRenderer ArrowSprite;
+        public SpriteRenderer ShadowSprite;
+        public SpriteRenderer SelectionSprite;
+
+        private void Start()
+        {
+            ShadowSprite.sortingOrder = SelectionSprite.sortingOrder;
+        }
 
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
                 HideTile();
+                ShowShadow();
             }
         }
 
         public void HideTile()
         {
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+            SelectionSprite.color = new Color(1, 1, 1, 0);
         }
 
         public void ShowTile()
         {
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            SelectionSprite.color = new Color(1, 1, 1, 1);
+        }
+
+        public void ShowShadow()
+        {
+            ShadowSprite.enabled = true;
+        }
+
+        public void HideShadow()
+        {
+            ShadowSprite.enabled = false;
         }
 
         public void SetSprite(ArrowDirection d)
         {
             if (d == ArrowDirection.None)
-                GetComponentsInChildren<SpriteRenderer>()[1].color = new Color(1, 1, 1, 0);
+                ArrowSprite.color = new Color(1, 1, 1, 0);
             else
             {
-                GetComponentsInChildren<SpriteRenderer>()[1].color = new Color(1, 1, 1, 1);
-                GetComponentsInChildren<SpriteRenderer>()[1].sprite = arrows[(int)d];
-                GetComponentsInChildren<SpriteRenderer>()[1].sortingOrder = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+                ArrowSprite.color = new Color(1, 1, 1, 1);
+                ArrowSprite.sprite = arrows[(int)d];
+                ArrowSprite.sortingOrder = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
             }
         }
 

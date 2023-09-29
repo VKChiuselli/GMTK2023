@@ -12,8 +12,6 @@ namespace finished3
             var inRangeTiles = new List<OverlayTile>();
             int stepCount = 0;
 
-            inRangeTiles.Add(startingTile);
-
             //Should contain the surroundingTiles of the previous step. 
             var tilesForPreviousStep = new List<OverlayTile>();
             tilesForPreviousStep.Add(startingTile);
