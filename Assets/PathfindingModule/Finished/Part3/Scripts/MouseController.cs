@@ -20,6 +20,7 @@ namespace finished3
         public bool isMoving;
         OverlayTile currentTileCharacter;
         public OverlayTile currentTileMouse;
+
         private void Start()
         {
             pathFinder = new PathFinder();
@@ -73,11 +74,6 @@ namespace finished3
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    //if(resetPath)
-                    //{
-                    //    return;
-                    //}
-
 
                     if (character != null)
                     {
@@ -90,9 +86,6 @@ namespace finished3
                         }
 
                     }
-
-                    tile.ShowTile();
-
 
                     if (character == null)
                     {
@@ -110,19 +103,8 @@ namespace finished3
                         }
 
                     }
-
-
-
                 }
             }
-            //else
-            //{
-            //   // resetPath = true;
-            //    path.Clear();
-            //    return;
-            //  //  currentTileMouse = null;
-            //}
-
 
             if (path.Count > 0 && isMoving)
             {
@@ -130,16 +112,8 @@ namespace finished3
             }
         }
 
-        bool resetPath;
-
         private bool CheckIfClickedOnTheTile(List<OverlayTile> path, OverlayTile tile)
         {
-            //    if(currentTileMouse!=null)
-            if (currentTileMouse == path[path.Count - 1])
-            {
-
-                return true;
-            }
             foreach (var item in path)
             {
                 MapManager.Instance.map[item.grid2DLocation].SetSprite(ArrowDirection.None);
@@ -148,11 +122,13 @@ namespace finished3
             {
                 MapManager.Instance.map[item.grid2DLocation].SetSprite(ArrowDirection.None);
             }
+            if (currentTileMouse == path[path.Count - 1])
+            {
+                return true;
+            }
             tile.HideTile();
 
             GetInRangeTiles();
-
-            //  tile.ShowTile();
 
             return false;
         }
@@ -169,6 +145,14 @@ namespace finished3
             {
                 PositionCharacterOnLine(path[0]);
                 path.RemoveAt(0);
+
+                // Set character sorting order
+                RaycastHit2D? hit = GetFocusedOnTile();
+                if (hit.HasValue)
+                {
+                    OverlayTile tile = hit.Value.collider.gameObject.GetComponent<OverlayTile>();
+                    character.SetSortingOrder(tile.transform.GetComponent<SpriteRenderer>().sortingOrder);
+                }
             }
 
             if (path.Count == 0)
@@ -205,11 +189,36 @@ namespace finished3
 
         private void GetInRangeTiles()
         {
-            rangeFinderTiles = rangeFinder.GetTilesInRange(new Vector2Int(character.standingOnTile.gridLocation.x, character.standingOnTile.gridLocation.y), howMuchPlayerMove);
+            Vector2Int startPos = new Vector2Int(character.standingOnTile.gridLocation.x, character.standingOnTile.gridLocation.y);
+            rangeFinderTiles = rangeFinder.GetTilesInRange(startPos, howMuchPlayerMove);
+
+            // Remove all tiles not in range due to obsticals
+            List<OverlayTile> finalTiles = new List<OverlayTile>();
+            foreach (var tile in rangeFinderTiles)
+            {
+                var length = pathFinder.FindPath(character.standingOnTile, tile, rangeFinderTiles).Count;
+                if (length > 0 && length <= howMuchPlayerMove)
+                    finalTiles.Add(tile);
+            }
+            rangeFinderTiles = finalTiles;
+            foreach (var item in rangeFinderTiles)
+            {
+                if (item.grid2DLocation != startPos)
+                    item.ShowTile();
+            }
+
+            UnHideShadowsInRange();
+        }
+
+        public int howMuchVision = 5;
+        private void UnHideShadowsInRange()
+        {
+            Vector2Int startPos = new Vector2Int(character.standingOnTile.gridLocation.x, character.standingOnTile.gridLocation.y);
+            rangeFinderTiles = rangeFinder.GetTilesInRange(startPos, howMuchVision);
 
             foreach (var item in rangeFinderTiles)
             {
-                item.ShowTile();
+                    item.HideShadow();
             }
         }
     }

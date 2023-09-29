@@ -6,10 +6,9 @@ namespace finished3
     {
         public OverlayTile standingOnTile;
 
-
-        private void Update()
+        public void SetSortingOrder(int sortingOrder)
         {
-          transform.GetChild(0).gameObject. GetComponent<SpriteRenderer>().sortingOrder = 99;
+            transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
         }
 
     }
