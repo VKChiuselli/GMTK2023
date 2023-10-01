@@ -40,7 +40,7 @@ namespace finished3
             {
                 OverlayTile tile = hit.Value.collider.gameObject.GetComponent<OverlayTile>();
                 cursor.transform.position = tile.transform.position;
-                cursor.gameObject.GetComponent<SpriteRenderer>().sortingOrder = tile.transform.GetComponent<SpriteRenderer>().sortingOrder;
+                cursor.gameObject.GetComponent<SpriteRenderer>().sortingOrder = tile.transform.GetComponent<SpriteRenderer>().sortingOrder + 1;
 
                 if (character != null)
                 {
@@ -189,6 +189,8 @@ namespace finished3
 
         private void GetInRangeTiles()
         {
+            UnHideShadowsInRange();
+
             Vector2Int startPos = new Vector2Int(character.standingOnTile.gridLocation.x, character.standingOnTile.gridLocation.y);
             rangeFinderTiles = rangeFinder.GetTilesInRange(startPos, howMuchPlayerMove);
 
@@ -206,17 +208,35 @@ namespace finished3
                 if (item.grid2DLocation != startPos)
                     item.ShowTile();
             }
-
-            UnHideShadowsInRange();
         }
 
         public int howMuchVision = 5;
         private void UnHideShadowsInRange()
         {
             Vector2Int startPos = new Vector2Int(character.standingOnTile.gridLocation.x, character.standingOnTile.gridLocation.y);
-            rangeFinderTiles = rangeFinder.GetTilesInRange(startPos, howMuchVision);
+            var visibleTiles = rangeFinder.GetTilesInRange(startPos, howMuchVision);
 
-            foreach (var item in rangeFinderTiles)
+            // Remove tiles blocked by walls
+            List<OverlayTile> finalTiles = new List<OverlayTile>();
+            foreach (var tile in visibleTiles)
+            {
+                var hits = Physics2D.LinecastAll(character.standingOnTile.transform.position, tile.transform.position);
+                bool hitWall = false;
+                foreach( var hit in hits)
+                {
+                    var grid = hit.collider.gameObject.GetComponent<OverlayTile>();
+                    if (grid != null && grid.isBlocked)
+                    {
+                        hitWall = true;
+                    }
+                }
+
+                if (!hitWall)
+                    finalTiles.Add(tile);
+            }
+            visibleTiles = finalTiles;
+
+            foreach (var item in visibleTiles)
             {
                     item.HideShadow();
             }

@@ -48,7 +48,8 @@ namespace finished3
 
         public void ShowShadow()
         {
-            ShadowSprite.enabled = true;
+            if (!isBlocked)
+                ShadowSprite.enabled = true;
         }
 
         public void HideShadow()
